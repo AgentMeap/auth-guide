@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../services/auth_provider.dart';
-import '../services/auth_service.dart';
+import '../services/auth_controller.dart';
+import '../services/auth_exception.dart';
 import '../utils/validators.dart';
 import 'register_screen.dart';
 
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Chế độ: ${auth.label}',
+                      'Đăng nhập bằng Firebase Authentication',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: scheme.onSurfaceVariant),
                     ),
@@ -202,15 +202,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                       child: const Text('Chưa có tài khoản? Đăng ký'),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Tài khoản giả lập: demo@courtly.vn / 123456',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: scheme.onSurfaceVariant,
-                        fontSize: 12,
-                      ),
                     ),
                   ],
                 ),

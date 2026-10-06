@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
 
+  # TODO(PASTE-1): dán 4 thư viện Firebase ở đây (thụt lề 2 dấu cách, thẳng hàng với cupertino_icons)
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,4 +1,0 @@
-import 'auth_controller.dart';
-import 'firebase_auth_service.dart';
-
-final AuthController auth = AuthController(FirebaseAuthService());

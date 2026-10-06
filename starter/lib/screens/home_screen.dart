@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../services/auth_provider.dart';
+import '../services/auth_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -52,7 +52,6 @@ class HomeScreen extends StatelessWidget {
                 _row(Icons.badge_outlined, 'Vai trò', user.role),
                 _row(Icons.login, 'Đăng nhập bằng', user.authProvider),
                 _row(Icons.fingerprint, 'ID', user.id),
-                _row(Icons.settings_outlined, 'Chế độ', auth.label),
               ],
             ),
           ),

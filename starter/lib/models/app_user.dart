@@ -1,4 +1,4 @@
-/// Người dùng đang đăng nhập. Dùng chung cho cả chế độ giả lập và Firebase.
+/// Người dùng đang đăng nhập. Hồ sơ này được lưu ở Firestore: users/{uid}.
 class AppUser {
   const AppUser({
     required this.id,

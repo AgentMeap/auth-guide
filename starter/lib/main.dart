@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'services/auth_controller.dart';
-import 'services/auth_provider.dart';
-// >>> BƯỚC 4a (Firebase): dán dòng import firebase_core ở đây
+// TODO(PASTE-5): dán dòng import firebase_core ở đây
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // >>> BƯỚC 4b (Firebase): dán dòng khởi tạo Firebase ở đây
+  // TODO(PASTE-6): dán dòng khởi tạo Firebase ở đây
   runApp(const MyApp());
 }
 
