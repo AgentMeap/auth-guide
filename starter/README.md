@@ -1,6 +1,6 @@
 # Courtly Auth Demo (project thực hành Firebase)
 
-Project Flutter nhỏ có **Đăng ký, Đăng nhập, Đăng nhập Google**, lưu dữ liệu ở **Firebase** (tài khoản trong Authentication, hồ sơ trong Cloud Firestore). Giao diện đã viết sẵn. Phần gọi Firebase được **cố ý để trống**, bạn sẽ dán từng đoạn code vào đúng chỗ theo trang hướng dẫn (mục B0 và B2b) để hiểu cần những thư viện và dòng code nào.
+Project Flutter nhỏ có **Đăng ký, Đăng nhập, Đăng nhập Google**, lưu dữ liệu ở **Firebase** (tài khoản trong Authentication, hồ sơ trong Cloud Firestore). Giao diện đã viết sẵn. Phần gọi Firebase được **cố ý để trống**, bạn sẽ dán từng đoạn code vào đúng chỗ theo trang hướng dẫn (mục B0 và B3) để hiểu cần những thư viện và dòng code nào.
 
 ## Bắt đầu
 

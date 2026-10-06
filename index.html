@@ -173,17 +173,12 @@ footer{margin-top:34px;color:var(--muted);font-size:.88rem;border-top:1px solid 
 @media(max-width:700px){.topbar{position:static}}
 </style>
 </head>
-<body data-mode="all" data-os="win">
+<body data-mode="firebase" data-os="win">
 <noscript><p style="padding:12px;background:#fff6e0;margin:0">Trang này cần JavaScript để hiện sơ đồ, nút sao chép và lưu tiến độ. Nội dung các bước vẫn đọc được.</p></noscript>
 
 <header class="topbar">
   <div class="topbar-in">
-    <div class="brand"><i aria-hidden="true"></i> Courtly · Bảo mật tài khoản</div>
-    <div class="seg" role="group" aria-label="Chọn đường tích hợp" id="modeSeg">
-      <button data-set-mode="all" aria-pressed="true">Cả hai</button>
-      <button data-set-mode="spring" aria-pressed="false">Spring Boot</button>
-      <button data-set-mode="firebase" aria-pressed="false">Firebase</button>
-    </div>
+    <div class="brand"><i aria-hidden="true"></i> Courtly · Tích hợp Firebase</div>
     <div class="seg" role="group" aria-label="Hệ điều hành" id="osSeg">
       <button data-set-os="win" aria-pressed="true">Windows</button>
       <button data-set-os="mac" aria-pressed="false">macOS / Linux</button>
@@ -198,35 +193,17 @@ footer{margin-top:34px;color:var(--muted);font-size:.88rem;border-top:1px solid 
 <nav class="toc" id="toc" aria-label="Mục lục">
   <div class="grp">Bắt đầu</div>
   <ol>
-    <li><a href="#chon">Chọn đường đi</a></li>
-    <li><a href="#tong-quan">1. Module gồm những gì</a></li>
+    <li><a href="#tong-quan">1. Bạn sẽ làm gì</a></li>
     <li><a href="#chuan-bi">2. Chuẩn bị</a></li>
   </ol>
-  <div class="grp">Gắn vào dự án Flutter</div>
+  <div class="grp">Thực hành</div>
   <ol>
-    <li><a href="#b1">Bước 1. Lấy mã nguồn</a></li>
-    <li><a href="#b2">Bước 2. Thêm thư viện</a></li>
-    <li><a href="#b3">Bước 3. Cấu hình Android</a></li>
-    <li><a href="#b4">Bước 4. Chọn chế độ</a></li>
-    <li><a href="#b5">Bước 5. Nối vào main.dart</a></li>
-    <li><a href="#b6">Bước 6. Dùng trong màn hình</a></li>
-  </ol>
-  <div class="grp" data-mode="spring">Đường A: Spring Boot</div>
-  <ol data-mode="spring">
-    <li><a href="#a1">A1. Chạy backend</a></li>
-    <li><a href="#a2">A2. Chạy Flutter</a></li>
-    <li><a href="#a3">A3. Luồng chạy</a></li>
-    <li><a href="#a4">A4. Kiểm tra</a></li>
-  </ol>
-  <div class="grp" data-mode="firebase">Đường B: Firebase</div>
-  <ol data-mode="firebase">
-    <li><a href="#fs0">B0. Project demo</a></li>
+    <li><a href="#fs0">B0. Tải project demo</a></li>
     <li><a href="#f1">B1. Cấu hình Firebase</a></li>
     <li><a href="#f2">B2. Gắn app Android</a></li>
-    <li><a href="#fs1">B2b. Dán code vào project demo</a></li>
-    <li><a href="#f3">B3. Chạy Flutter</a></li>
-    <li><a href="#f4">B4. Luồng chạy</a></li>
-    <li><a href="#f5">B5. Kiểm tra</a></li>
+    <li><a href="#fs1">B3. Dán code</a></li>
+    <li><a href="#f4">B4. Hiểu luồng</a></li>
+    <li><a href="#f5">B5. Chạy và kiểm tra</a></li>
   </ol>
   <div class="grp">Sau cùng</div>
   <ol>
@@ -237,443 +214,75 @@ footer{margin-top:34px;color:var(--muted);font-size:.88rem;border-top:1px solid 
 
 <main>
 <div class="hero" id="top">
-  <span class="pill">Môn PRM393</span><span class="pill">Flutter</span><span class="pill">Cập nhật 06/10/2026</span>
-  <h1>Tích hợp module bảo mật tài khoản vào dự án Flutter</h1>
-  <p>Hướng dẫn từng bước để gắn đăng nhập, đăng ký có xác minh, quên mật khẩu và đăng nhập Google vào ứng dụng của bạn. Mã nguồn mẫu lấy từ dự án Courtly (ứng dụng đặt sân cầu lông) của nhóm.</p>
-  <div class="paths" id="chon">
-    <div class="path spring">
-      <h3>Đường A · Spring Boot + SQL Server</h3>
-      <p>Backend của nhóm: OTP 6 số gửi qua Gmail, JWT, refresh token, dữ liệu trong SQL Server.</p>
-      <p><b>Chọn khi:</b> cần bảo mật kiểu "có server riêng", muốn demo OTP email.</p>
-    </div>
-    <div class="path firebase">
-      <h3>Đường B · Firebase</h3>
-      <p>Flutter nối thẳng Firebase Authentication và Firestore, không cần backend, không cần Docker.</p>
-      <p><b>Chọn khi:</b> muốn làm nhanh, cần đăng nhập Google thật.</p>
-    </div>
-  </div>
-  <p style="margin-top:14px">Dùng nút <b>Cả hai / Spring Boot / Firebase</b> ở thanh trên để chỉ xem đường bạn chọn. Tích vào ô vuông ở mỗi bước, thanh tiến độ ở trên cùng sẽ cập nhật.</p>
+  <span class="pill">Môn PRM393</span><span class="pill">Flutter</span><span class="pill">Firebase</span><span class="pill">Cập nhật 07/10/2026</span>
+  <h1>Tích hợp Firebase vào Flutter: đăng ký, đăng nhập, đăng nhập Google</h1>
+  <p>Bạn tải về một <b>project demo</b> có sẵn giao diện, nhưng phần gọi Firebase được <b>cố ý để trống</b>. Làm theo trang này để dán từng đoạn code vào đúng chỗ, mỗi đoạn có giải thích code và dependency vừa dán. Kết thúc, app có đăng ký, đăng nhập, đăng nhập Google và lưu dữ liệu ở Firebase.</p>
+  <p style="margin-top:12px">Tích vào ô vuông ở mỗi bước, thanh tiến độ ở trên cùng sẽ cập nhật. Có <b>15 chỗ dán</b>, mỗi chỗ ghi nhãn <span class="pill">PASTE-n</span>.</p>
 </div>
 
 <section class="sec" id="tong-quan">
   <span class="step-tag">Tổng quan</span>
-  <h2>1. Module gồm những gì</h2>
-  <p>Mọi màn hình chỉ làm việc với một lớp duy nhất là <code>AuthManager</code>. Lớp này giữ trạng thái đăng nhập và gọi một <code>AuthService</code>. Đổi <code>AuthService</code> thì đổi được nguồn xác thực mà không phải sửa giao diện.</p>
+  <h2>1. Bạn sẽ làm gì</h2>
+  <p>Firebase cung cấp hai dịch vụ mà project này dùng, mỗi dịch vụ giữ một phần dữ liệu:</p>
   <div class="tbl"><table>
-    <thead><tr><th>Thư mục / file (trong <code>lib/</code>)</th><th>Vai trò</th></tr></thead>
+    <thead><tr><th>Dịch vụ</th><th>Giữ gì</th><th>Thư viện</th></tr></thead>
     <tbody>
-      <tr><td><code>config/app_config.dart</code></td><td>Chọn chế độ (<code>AUTH_MODE</code>, <code>GOOGLE_MODE</code>), địa chỉ backend, thời gian chờ</td></tr>
-      <tr><td><code>models/auth_models.dart</code></td><td><code>AppUser</code>, <code>AuthSession</code>, <code>LoginRequest</code>, <code>SignupRequest</code>, <code>OtpSent</code>, <code>AuthException</code></td></tr>
-      <tr><td><code>services/auth_service.dart</code></td><td>Giao diện <code>AuthService</code> và các bản cài: <code>MockAuthService</code>, <code>DummyJsonAuthService</code>, <code>SpringAuthService</code></td></tr>
-      <tr><td><code>services/firebase_direct_auth_service.dart</code></td><td>Bản cài cho đường Firebase (Auth + Firestore)</td></tr>
-      <tr><td><code>services/firebase_auth_service.dart</code></td><td>Khởi tạo Firebase và Google Sign-In</td></tr>
-      <tr><td><code>services/google_token_provider.dart</code></td><td>Nguồn Google token (thật hoặc tài khoản giả để demo)</td></tr>
-      <tr><td><code>services/auth_manager.dart</code></td><td>Trạng thái đăng nhập, khôi phục phiên, đồng bộ hồ sơ, đăng xuất</td></tr>
-      <tr><td><code>services/session_storage.dart</code></td><td>Lưu phiên vào secure storage / shared_preferences</td></tr>
-      <tr><td><code>services/api_client.dart</code></td><td>Gọi API kèm Bearer token, gặp 401 thì tự refresh một lần</td></tr>
-      <tr><td><code>utils/validators.dart</code></td><td>Kiểm tra email, SĐT, mật khẩu, OTP</td></tr>
-      <tr><td><code>widgets/otp_widgets.dart</code>, <code>widgets/mock_google_picker.dart</code></td><td>Ô nhập OTP, đếm ngược gửi lại, hộp chọn Google giả</td></tr>
-      <tr><td><code>screens/auth_screen.dart</code>, <code>otp_verify_screen.dart</code>, <code>forgot_password_screen.dart</code>, <code>splash_screen.dart</code></td><td>Các màn hình xác thực</td></tr>
-      <tr><td><code>firestore.rules</code> (thư mục gốc)</td><td>Luật bảo vệ dữ liệu Firestore (đường Firebase)</td></tr>
+      <tr><td><b>Firebase Authentication</b></td><td>Email, mật khẩu (đã băm, app không thấy), tài khoản Google, phiên đăng nhập, email xác minh và đặt lại mật khẩu</td><td><code>firebase_auth</code>, <code>google_sign_in</code></td></tr>
+      <tr><td><b>Cloud Firestore</b></td><td>Hồ sơ người dùng ở <code>users/{uid}</code>: họ tên, SĐT, vai trò, kiểu đăng nhập</td><td><code>cloud_firestore</code></td></tr>
+      <tr><td><b>Nền tảng chung</b></td><td>Kết nối app với project Firebase của bạn qua <code>google-services.json</code></td><td><code>firebase_core</code></td></tr>
     </tbody>
   </table></div>
-  <div class="note warn"><b>Lưu ý.</b> Các màn hình trên còn dùng <code>theme/app_theme.dart</code> (màu <code>AppColors</code>), <code>widgets/common_widgets.dart</code> và <code>services/notification_service.dart</code> của dự án Courtly. Hoặc bạn chép thêm các file đó, hoặc sửa màn hình cho hợp theme của dự án mình.</div>
-
-  <h3>So sánh hai đường</h3>
-  <div class="tbl"><table>
-    <thead><tr><th></th><th>Đường A · Spring Boot</th><th>Đường B · Firebase</th></tr></thead>
-    <tbody>
-      <tr><td>Đặt chế độ</td><td><code>AUTH_MODE=spring</code></td><td><code>AUTH_MODE=firebase</code></td></tr>
-      <tr><td>Nơi lưu tài khoản</td><td>SQL Server (mật khẩu băm BCrypt)</td><td>Firebase Authentication + Firestore (<code>users/{uid}</code>)</td></tr>
-      <tr><td>Xác minh khi đăng ký</td><td>OTP 6 số gửi qua Gmail</td><td>Email chứa liên kết xác minh (không có OTP 6 số)</td></tr>
-      <tr><td>Quên mật khẩu</td><td>OTP email, rồi nhập mật khẩu mới</td><td>Firebase gửi liên kết đặt lại mật khẩu</td></tr>
-      <tr><td>Đăng nhập bằng</td><td>Email hoặc số điện thoại</td><td>Chỉ email</td></tr>
-      <tr><td>Đăng nhập Google</td><td>Google thật (cần Firebase) hoặc Google giả để demo</td><td>Google thật</td></tr>
-      <tr><td>Phiên</td><td>Access token 30 phút + refresh token 7 ngày (xoay vòng)</td><td>Firebase ID token 1 giờ, app tự làm mới</td></tr>
-      <tr><td>Cần chạy thêm</td><td>Docker (SQL Server + backend)</td><td>Không</td></tr>
-    </tbody>
-  </table></div>
+  <p>Các bước đi theo thứ tự: tải project (B0), chuẩn bị phía Firebase (B1, B2), dán code (B3), hiểu luồng (B4), chạy và kiểm tra (B5).</p>
+  <div class="note"><b>Cách app được tổ chức.</b> Màn hình chỉ làm việc với <code>AuthController</code>; <code>AuthController</code> chỉ gọi <code>FirebaseAuthService</code>. Vì vậy toàn bộ code Firebase gom ở một file, và đó cũng là nơi bạn dán nhiều nhất.</div>
 </section>
 
 <section class="sec" id="chuan-bi">
   <span class="step-tag">Chuẩn bị</span>
   <h2>2. Chuẩn bị</h2>
   <ul class="tasks">
-    <li><label class="task"><input type="checkbox" data-id="prep-flutter"><span><b>Flutter SDK</b> (Dart <code>^3.13.3</code> như <code>pubspec.yaml</code> của dự án mẫu). Chạy <code>flutter doctor</code> và sửa các mục báo đỏ.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="prep-android"><span><b>Android Studio + Android SDK</b>, một điện thoại bật <i>USB debugging</i> hoặc một máy ảo (emulator). Máy ảo cần loại có <b>Google Play</b> nếu bạn thử Google thật.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="prep-git"><span><b>Git</b> để tải mã nguồn mẫu.</span></label></li>
-    <li data-mode="spring"><label class="task"><input type="checkbox" data-id="prep-docker"><span><b>Docker Desktop</b> (chạy SQL Server và backend). Máy nên có từ 8 GB RAM.</span></label></li>
-    <li data-mode="spring"><label class="task"><input type="checkbox" data-id="prep-gmail"><span><b>Tài khoản Gmail bật xác minh 2 bước</b> để tạo <i>App Password</i> (16 ký tự) dùng gửi OTP.</span></label></li>
-    <li data-mode="firebase"><label class="task"><input type="checkbox" data-id="prep-fb"><span><b>Tài khoản Google có quyền Owner/Editor</b> trên một project Firebase (tự tạo project mới nếu dự án của bạn có tên package riêng).</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="prep-flutter"><span><b>Flutter SDK</b> (stable). Chạy <code>flutter doctor</code> và sửa các mục báo đỏ.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="prep-android"><span><b>Android Studio + Android SDK</b>, một điện thoại bật <i>USB debugging</i> hoặc máy ảo loại có <b>Google Play</b> (cần cho đăng nhập Google).</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="prep-git"><span><b>Git</b> để tải project.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="prep-fb"><span><b>Tài khoản Google</b> để vào Firebase Console. Bạn nên tự tạo một project Firebase riêng để thực hành.</span></label></li>
   </ul>
-  <div class="note"><b>Mẹo RAM.</b> Build Android cần nhiều bộ nhớ. Nếu đi đường Firebase thì tắt Docker và chạy <code>wsl --shutdown</code> trước khi build, tránh lỗi "Gradle daemon disappeared".</div>
+  <div class="note"><b>Mẹo RAM.</b> Build Android cần nhiều bộ nhớ. Nếu máy có 8 GB RAM, đóng Docker và các ứng dụng nặng trước khi build để tránh lỗi "Gradle daemon disappeared" (xem mục Xử lý lỗi).</div>
 </section>
 
-<section class="sec" id="b1">
-  <span class="step-tag">Bước 1</span>
-  <h2>Lấy mã nguồn mẫu và chép module vào dự án</h2>
-  <p>Tải repo mẫu về một thư mục riêng (không phải thư mục dự án của bạn):</p>
-  <div class="code"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>git clone https://github.com/NhHg-lab/PRM393_caulong.git
-<span data-mode="spring">git clone https://github.com/AgentMeap/courtly-backend.git</span></code></pre></div>
-  <p>Rồi chép các file của module sang dự án của bạn. Đổi hai đường dẫn đầu cho đúng máy bạn:</p>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>$SRC = "D:\hoc\PRM393_caulong"      # repo mẫu vừa clone
-$DST = "D:\hoc\du_an_cua_toi"       # dự án Flutter của bạn
-$files = @(
-  "lib\config\app_config.dart",
-  "lib\models\auth_models.dart",
-  "lib\services\auth_service.dart",
-  "lib\services\auth_manager.dart",
-  "lib\services\session_storage.dart",
-  "lib\services\api_client.dart",
-  "lib\services\firebase_auth_service.dart",
-  "lib\services\firebase_direct_auth_service.dart",
-  "lib\services\google_token_provider.dart",
-  "lib\utils\validators.dart",
-  "lib\widgets\otp_widgets.dart",
-  "lib\widgets\mock_google_picker.dart",
-  "lib\screens\auth_screen.dart",
-  "lib\screens\otp_verify_screen.dart",
-  "lib\screens\forgot_password_screen.dart",
-  "lib\screens\splash_screen.dart",
-  "firestore.rules"
-)
-foreach ($f in $files) {
-  New-Item -ItemType Directory -Force -Path (Split-Path "$DST\$f") | Out-Null
-  Copy-Item "$SRC\$f" "$DST\$f"
-}</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>SRC=~/hoc/PRM393_caulong      # repo mẫu vừa clone
-DST=~/hoc/du_an_cua_toi       # dự án Flutter của bạn
-for f in \
-  lib/config/app_config.dart lib/models/auth_models.dart \
-  lib/services/auth_service.dart lib/services/auth_manager.dart \
-  lib/services/session_storage.dart lib/services/api_client.dart \
-  lib/services/firebase_auth_service.dart lib/services/firebase_direct_auth_service.dart \
-  lib/services/google_token_provider.dart lib/utils/validators.dart \
-  lib/widgets/otp_widgets.dart lib/widgets/mock_google_picker.dart \
-  lib/screens/auth_screen.dart lib/screens/otp_verify_screen.dart \
-  lib/screens/forgot_password_screen.dart lib/screens/splash_screen.dart \
-  firestore.rules
-do
-  mkdir -p "$(dirname "$DST/$f")" &amp;&amp; cp "$SRC/$f" "$DST/$f"
-done</code></pre></div>
-  <div class="note warn"><b>Chép đủ cả hai đường.</b> <code>auth_service.dart</code> tham chiếu cả <code>SpringAuthService</code> lẫn <code>FirebaseDirectAuthService</code>. Dù chỉ dùng một đường, bạn vẫn chép đủ các file trên và cài đủ thư viện ở Bước 2, nếu không dự án sẽ báo lỗi biên dịch.</div>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b1-copy"><span>Các file đã nằm đúng thư mục trong <code>lib/</code> của dự án tôi.</span></label></li></ul>
-</section>
-
-<section class="sec" id="b2">
-  <span class="step-tag">Bước 2</span>
-  <h2>Thêm thư viện vào <code>pubspec.yaml</code></h2>
-  <p>Thêm vào mục <code>dependencies</code> (số phiên bản lấy từ dự án mẫu, bạn có thể để Flutter chọn bản mới hơn):</p>
-  <div class="code"><div class="code-bar"><span>pubspec.yaml</span><button class="copy" type="button">Sao chép</button></div><pre><code>dependencies:
-  http: ^1.6.0
-  shared_preferences: ^2.5.5
-  flutter_secure_storage: ^11.2.0
-  firebase_core: ^4.15.0
-  firebase_auth: ^6.7.0
-  cloud_firestore: ^6.10.0
-  google_sign_in: ^7.2.0</code></pre></div>
-  <p>Nếu bạn muốn Flutter tự chọn bản tương thích với nhau, dùng lệnh:</p>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter pub add http shared_preferences flutter_secure_storage firebase_core firebase_auth cloud_firestore google_sign_in
-flutter pub get</code></pre></div>
-  <div class="note"><b>Thông báo cục bộ.</b> <code>auth_screen.dart</code> gọi <code>NotificationService</code> (hiện thông báo "đăng nhập thành công") nên dự án mẫu còn dùng <code>flutter_local_notifications</code>. Nếu bạn không muốn thông báo, xoá dòng gọi <code>NotificationService</code> trong <code>auth_screen.dart</code> thay vì cài thêm thư viện.</div>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b2-pub"><span><code>flutter pub get</code> chạy xong không báo lỗi.</span></label></li></ul>
-</section>
-
-<section class="sec" id="b3">
-  <span class="step-tag">Bước 3</span>
-  <h2>Cấu hình Android</h2>
-  <h3>3.1. Cho phép truy cập mạng</h3>
-  <p>Trong <code>android/app/src/main/AndroidManifest.xml</code>, phía trên thẻ <code>&lt;application&gt;</code>:</p>
-  <div class="code"><div class="code-bar"><span>AndroidManifest.xml</span><button class="copy" type="button">Sao chép</button></div><pre><code>&lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre></div>
-  <h3>3.2. Plugin Google Services (cho Firebase / Google Sign-In)</h3>
-  <p>Hai file Gradle cần có plugin <code>com.google.gms.google-services</code>:</p>
-  <div class="code"><div class="code-bar"><span>android/settings.gradle.kts</span><button class="copy" type="button">Sao chép</button></div><pre><code>plugins {
-    id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "9.1.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.4.0" apply false
-    id("com.google.gms.google-services") version "4.5.0" apply false
-}</code></pre></div>
-  <div class="code"><div class="code-bar"><span>android/app/build.gradle.kts</span><button class="copy" type="button">Sao chép</button></div><pre><code>plugins {
-    id("com.android.application")
-    id("com.google.gms.google-services")
-    id("dev.flutter.flutter-gradle-plugin")
-}</code></pre></div>
-  <p>Giữ nguyên các phiên bản <code>com.android.application</code> và Kotlin mà dự án của bạn đang dùng. Chỉ thêm dòng của <code>com.google.gms.google-services</code>.</p>
-  <div class="note warn"><b>Cần file <code>google-services.json</code>.</b> Khi đã bật plugin này, build sẽ lỗi nếu thiếu <code>android/app/google-services.json</code>. Đường Firebase sẽ có file thật ở bước B2. Nếu bạn chỉ đi đường Spring, hãy tạo một project Firebase trống để lấy file này, hoặc tạm bỏ dòng plugin ở cả hai file và chấp nhận không có Google thật.</div>
-  <h3>3.3. Phiên bản Android tối thiểu</h3>
-  <p>Firebase cần Android 6.0 (API 23) trở lên. Dự án Flutter mới đã đặt <code>minSdk = flutter.minSdkVersion</code> và thường đủ. Nếu build báo "minSdkVersion", đặt <code>minSdk = 23</code> trong <code>defaultConfig</code>.</p>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b3-android"><span>Đã thêm quyền INTERNET và plugin google-services.</span></label></li></ul>
-</section>
-
-<section class="sec" id="b4">
-  <span class="step-tag">Bước 4</span>
-  <h2>Chọn chế độ bằng <code>--dart-define</code></h2>
-  <p>Bạn không phải sửa code để đổi nguồn xác thực. <code>app_config.dart</code> đọc các giá trị lúc chạy:</p>
-  <div class="code"><div class="code-bar"><span>lib/config/app_config.dart (trích)</span><button class="copy" type="button">Sao chép</button></div><pre><code>enum AuthMode { mock, dummyJson, spring, firebase }
-
-static const String _authModeName = String.fromEnvironment('AUTH_MODE');
-
-static const AuthMode authMode = _authModeName == 'spring'
-    ? AuthMode.spring
-    : _authModeName == 'firebase'
-    ? AuthMode.firebase
-    : _authModeName == 'dummyjson'
-    ? AuthMode.dummyJson
-    : AuthMode.mock;</code></pre></div>
-  <div class="tbl"><table>
-    <thead><tr><th>Biến</th><th>Giá trị</th><th>Ý nghĩa</th></tr></thead>
-    <tbody>
-      <tr><td><code>AUTH_MODE</code></td><td>(bỏ trống) · <code>spring</code> · <code>firebase</code> · <code>dummyjson</code></td><td>Bỏ trống là chế độ <b>mock</b>: mọi thứ giả trong app, OTP luôn là <code>123456</code>, không cần mạng.</td></tr>
-      <tr><td><code>GOOGLE_MODE</code></td><td><code>firebase</code> · <code>mock</code> · <code>off</code></td><td><code>firebase</code> là Google thật (mặc định). <code>mock</code> hiện hộp chọn 3 tài khoản giả, chỉ dùng demo với <code>AUTH_MODE=spring</code>, và tự tắt ở bản release.</td></tr>
-      <tr><td><code>API_BASE_URL</code></td><td>ví dụ <code>http://192.168.1.10:8080</code></td><td>Địa chỉ backend, <b>không</b> có <code>/api</code> và dấu <code>/</code> cuối. Bỏ trống thì máy ảo Android dùng <code>10.0.2.2:8080</code>.</td></tr>
-    </tbody>
-  </table></div>
-  <div class="note danger"><b>Dễ nhầm.</b> Nút ▶ (Run) của Android Studio không có tham số, nên app chạy ở chế độ <b>mock</b>. Muốn chạy chế độ khác, dùng lệnh <code>flutter run --dart-define=...</code> hoặc điền vào <i>Run → Edit Configurations → Additional run args</i>. Đổi <code>--dart-define</code> phải chạy lại hẳn, hot reload không áp dụng được.</div>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b4-modes"><span>Tôi hiểu: bỏ trống = mock; <code>spring</code> và <code>firebase</code> phải truyền bằng <code>--dart-define</code>.</span></label></li></ul>
-</section>
-
-<section class="sec" id="b5">
-  <span class="step-tag">Bước 5</span>
-  <h2>Nối module vào <code>main.dart</code></h2>
-  <p>Có ba việc: khởi tạo Firebase (chỉ khi cần), khôi phục phiên đã lưu lúc mở app, và chọn màn hình theo trạng thái đăng nhập. Phiên bản rút gọn từ <code>main.dart</code> của Courtly:</p>
-  <div class="code"><div class="code-bar"><span>lib/main.dart</span><button class="copy" type="button">Sao chép</button></div><pre><code>import 'package:flutter/material.dart';
-
-import 'screens/auth_screen.dart';
-import 'screens/splash_screen.dart';
-import 'services/auth_manager.dart';
-import 'services/firebase_auth_service.dart';
-
-Future&lt;void&gt; main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await initFirebaseIfEnabled(); // chỉ khởi tạo Firebase khi cần
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-  @override
-  State&lt;MyApp&gt; createState() =&gt; _MyAppState();
-}
-
-class _MyAppState extends State&lt;MyApp&gt; {
-  final _auth = AuthManager.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    _auth.restoreSession(); // đọc phiên đã lưu, làm mới token, đồng bộ hồ sơ
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: _auth,
-      builder: (context, _) =&gt; MaterialApp(
-        home: switch (_auth.status) {
-          AuthStatus.unknown =&gt; const SplashScreen(),
-          AuthStatus.unauthenticated =&gt; const AuthScreen(),
-          AuthStatus.authenticated =&gt; HomeScreen( // màn chính của bạn
-            user: _auth.currentUser!,
-            onLogout: _auth.logout,
-          ),
-        },
-      ),
-    );
-  }
-}</code></pre></div>
-  <p><code>HomeScreen</code> là màn hình của riêng bạn. Dùng <code>home:</code> thay vì <code>Navigator.push</code> để người dùng không bấm Back quay lại màn đăng nhập khi đã vào trong.</p>
-  <div class="note"><b>Firebase chỉ khởi tạo khi cần.</b> <code>initFirebaseIfEnabled()</code> bỏ qua việc khởi tạo khi không bật Google Sign-In và không ở chế độ <code>firebase</code>, và không bao giờ ném lỗi, nên thiếu <code>google-services.json</code> không làm app sập lúc mở.</div>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b5-main"><span>App mở lên thấy màn Splash rồi vào màn đăng nhập.</span></label></li></ul>
-</section>
-
-<section class="sec" id="b6">
-  <span class="step-tag">Bước 6</span>
-  <h2>Dùng <code>AuthManager</code> trong màn hình của bạn</h2>
-  <p>Các màn <code>AuthScreen</code>, <code>OtpVerifyScreen</code>, <code>ForgotPasswordScreen</code> đã gọi sẵn <code>AuthManager</code>. Khi cần dùng ở chỗ khác:</p>
-  <div class="code"><div class="code-bar"><span>dart</span><button class="copy" type="button">Sao chép</button></div><pre><code>final auth = AuthManager.instance;
-
-// Đăng nhập (identifier là email, hoặc số điện thoại ở chế độ spring)
-final user = await auth.login('customer@courtly.vn', '123456');
-
-// Đăng nhập Google (Google Sign-In thật, rồi Firebase)
-await auth.loginWithGoogle();
-
-// Đăng ký: chế độ spring cần OTP, chế độ firebase thì không
-if (auth.requiresSignupOtp) {
-  final sent = await auth.sendRegisterOtp(email);   // gửi OTP tới email
-  // người dùng nhập mã, rồi:
-  await auth.signup(SignupRequest(
-    fullName: 'Nguyễn Văn A', email: email, phone: '0912345678',
-    password: 'Abcdef1', otp: '123456',
-  ));
-} else {
-  await auth.signup(SignupRequest(
-    fullName: 'Nguyễn Văn A', email: email, password: 'Abcdef1',
-  ));
-}
-
-// Thông tin hiện tại
-auth.status;          // unknown | authenticated | unauthenticated
-auth.currentUser;     // AppUser: id, fullName, email, phone, role
-auth.isAdmin;         // true nếu role = ADMIN
-
-await auth.logout();</code></pre></div>
-  <p>Mọi lỗi được ném ra là <code>AuthException</code> có sẵn thông báo tiếng Việt trong <code>message</code>, bạn chỉ cần hiển thị:</p>
-  <div class="code"><div class="code-bar"><span>dart</span><button class="copy" type="button">Sao chép</button></div><pre><code>try {
-  await AuthManager.instance.login(email, password);
-} on AuthException catch (e) {
-  ScaffoldMessenger.of(context)
-      .showSnackBar(SnackBar(content: Text(e.message)));
-}</code></pre></div>
-  <h3>Gọi API có đăng nhập (đường Spring)</h3>
-  <p><code>ApiClient</code> tự gắn <code>Authorization: Bearer ...</code>. Gặp 401 thì refresh token một lần rồi gửi lại. Đường dẫn tính từ <code>/api</code>:</p>
-  <div class="code" data-mode="spring"><div class="code-bar"><span>dart</span><button class="copy" type="button">Sao chép</button></div><pre><code>final api = ApiClient();
-final me = await api.getJson('/users/me');   // GET http://.../api/users/me</code></pre></div>
-  <div class="note" data-mode="firebase"><b>Đường Firebase.</b> Không có <code>ApiClient</code> hay <code>/api</code>. Dữ liệu người dùng được đọc từ Firestore (<code>users/{uid}</code>) bên trong <code>FirebaseDirectAuthService</code>.</div>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="b6-use"><span>Tôi biết cách gọi <code>login</code>, <code>signup</code>, <code>logout</code> và bắt <code>AuthException</code>.</span></label></li></ul>
-</section>
-
-<!-- ===================== ĐƯỜNG A: SPRING ===================== -->
-<section class="sec" id="a1" data-mode="spring">
-  <span class="step-tag spring">Đường A · Spring Boot</span>
-  <h2>A1. Chạy backend (Spring Boot + SQL Server bằng Docker)</h2>
-  <p>Repo backend: <a href="https://github.com/AgentMeap/courtly-backend" target="_blank" rel="noopener">AgentMeap/courtly-backend</a>. Docker chạy cả SQL Server lẫn ứng dụng, bạn không phải cài SQL Server hay Java.</p>
-
-  <h3>A1.1. Tạo file cấu hình <code>.env</code></h3>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>cd courtly-backend
-copy .env.example .env</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>cd courtly-backend
-cp .env.example .env</code></pre></div>
-  <p>Mở <code>.env</code> và điền bốn giá trị sau (các biến khác để nguyên):</p>
-  <div class="code"><div class="code-bar"><span>.env</span><button class="copy" type="button">Sao chép</button></div><pre><code>MSSQL_SA_PASSWORD=MatKhau@Manh123      # ≥ 8 ký tự, có chữ hoa, chữ thường, số, ký tự đặc biệt
-JWT_SECRET=<i>chuoi-ngau-nhien-it-nhat-32-ky-tu</i>
-MAIL_USERNAME=email.cua.ban@gmail.com
-MAIL_PASSWORD=abcdefghijklmnop          # App Password 16 ký tự, viết liền, không dấu cách</code></pre></div>
-  <p>Tạo <code>JWT_SECRET</code> ngẫu nhiên:</p>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>$b = New-Object byte[] 48
-[Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($b)
-[Convert]::ToBase64String($b)</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>openssl rand -base64 48</code></pre></div>
-  <div class="note danger"><b>Không commit <code>.env</code>.</b> File này chứa mật khẩu và khoá ký. Repo đã ghi sẵn <code>.env</code> trong <code>.gitignore</code>, đừng gỡ dòng đó.</div>
-
-  <h3>A1.2. Tạo Gmail App Password</h3>
-  <ol>
-    <li>Vào <b>Tài khoản Google → Bảo mật</b>, bật <b>Xác minh 2 bước</b>.</li>
-    <li>Tìm mục <b>Mật khẩu ứng dụng (App passwords)</b>, tạo mật khẩu mới đặt tên "Courtly".</li>
-    <li>Sao chép chuỗi 16 ký tự, dán vào <code>MAIL_PASSWORD</code> và viết liền, bỏ khoảng trắng.</li>
-  </ol>
-  <p>Không dùng mật khẩu đăng nhập Gmail thật. Thiếu bước này thì gửi OTP báo lỗi 503.</p>
-
-  <h3>A1.3. Khởi động</h3>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>docker compose up -d --build
-docker compose logs -f app</code></pre></div>
-  <p>Lần đầu mất vài phút (tải ảnh SQL Server, build). Khi log của <code>app</code> hiện dòng <code>Started ...</code> là xong. Cổng: ứng dụng <code>8080</code>, SQL Server ra máy thật ở <code>14330</code>.</p>
-  <div class="note ok"><b>Kiểm tra.</b> Mở <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a>, thấy danh sách API là backend đã chạy.</div>
-  <p>Hoặc thử đăng nhập bằng tài khoản mẫu:</p>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>curl.exe -s -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/json" -d "{\"identifier\":\"customer@courtly.vn\",\"password\":\"123456\"}"</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>curl -s -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/json" -d '{"identifier":"customer@courtly.vn","password":"123456"}'</code></pre></div>
-  <p>Kết quả có <code>accessToken</code>, <code>refreshToken</code> và <code>user</code> là đúng.</p>
-  <div class="tbl"><table>
-    <thead><tr><th>Tài khoản mẫu</th><th>Mật khẩu</th><th>SĐT</th><th>Vai trò</th></tr></thead>
-    <tbody>
-      <tr><td><code>admin@courtly.vn</code></td><td><code>123456</code></td><td><code>0900000001</code></td><td>ADMIN</td></tr>
-      <tr><td><code>customer@courtly.vn</code></td><td><code>123456</code></td><td><code>0900000002</code></td><td>CUSTOMER</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3>A1.4. Tuỳ chọn: Google giả để demo (không cần Firebase)</h3>
-  <p>Trong <code>.env</code> thêm <code>GOOGLE_MOCK_ENABLED=true</code> rồi chạy <code>docker compose up -d app</code>. Ở Flutter dùng <code>--dart-define=GOOGLE_MODE=mock</code>, bấm nút Google sẽ hiện hộp chọn 3 tài khoản giả.</p>
-  <div class="note danger"><b>Chỉ dùng khi dev / demo.</b> Với chế độ giả, ai cũng tự tạo được tài khoản cho một email chưa đăng ký. Backend từ chối khởi động nếu bật cùng profile <code>prod</code> hoặc cùng Firebase, và tài khoản giả không bao giờ đăng nhập được vào tài khoản có sẵn.</div>
-  <p>Muốn Google thật qua backend, xem hướng dẫn <code>docs/FIREBASE_BACKEND_SETUP.md</code> trong repo backend: đặt file service account tại <code>./secrets/service-account.json</code> (đã được <code>.gitignore</code> và <code>.dockerignore</code> chặn) và đặt <code>FIREBASE_ENABLED=true</code>, <code>FIREBASE_PROJECT_ID</code>, <code>FIREBASE_SERVICE_ACCOUNT_PATH=/run/secrets/firebase/service-account.json</code>, <code>GOOGLE_MOCK_ENABLED=false</code>.</p>
-  <ul class="tasks">
-    <li><label class="task"><input type="checkbox" data-id="a1-up"><span>Swagger mở được và đăng nhập bằng <code>customer@courtly.vn</code> trả về token.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a1-mail"><span>Đã điền App Password Gmail và biết gửi OTP đăng ký cần nó.</span></label></li>
-  </ul>
-</section>
-
-<section class="sec" id="a2" data-mode="spring">
-  <span class="step-tag spring">Đường A · Spring Boot</span>
-  <h2>A2. Chạy Flutter nối với backend</h2>
-  <h3>Máy ảo Android (emulator)</h3>
-  <p>Máy ảo tự gọi máy tính qua <code>10.0.2.2</code>, bạn không cần <code>API_BASE_URL</code>:</p>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter run --dart-define=AUTH_MODE=spring --dart-define=GOOGLE_MODE=mock</code></pre></div>
-  <h3>Điện thoại thật</h3>
-  <p>Trên điện thoại, <code>localhost</code> và <code>10.0.2.2</code> đều sai. Có hai cách:</p>
-  <p><b>Cách 1: qua Wi-Fi.</b> Điện thoại và máy tính cùng một Wi-Fi. Lấy IP máy tính:</p>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>ipconfig | Select-String "IPv4"</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>ipconfig getifaddr en0      # macOS
-hostname -I                  # Linux</code></pre></div>
-  <p>Chọn IP của card Wi-Fi (thường dạng <code>192.168.x.x</code>), bỏ qua IP của WSL/Docker (<code>172.x.x.x</code>). Rồi chạy:</p>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter run --dart-define=AUTH_MODE=spring --dart-define=GOOGLE_MODE=mock --dart-define=API_BASE_URL=http://192.168.1.13:8080</code></pre></div>
-  <p>Thay <code>192.168.1.13</code> bằng IP của bạn. Trước đó hãy mở <code>http://IP-của-bạn:8080/swagger-ui.html</code> bằng Chrome trên điện thoại. Mở được thì mạng ổn.</p>
-  <p><b>Cách 2: cắm cáp USB và dùng <code>adb reverse</code></b> (không phụ thuộc Wi-Fi hay firewall):</p>
-  <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>&amp; "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:8080 tcp:8080
-flutter run --dart-define=AUTH_MODE=spring --dart-define=GOOGLE_MODE=mock --dart-define=API_BASE_URL=http://localhost:8080</code></pre></div>
-  <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>adb reverse tcp:8080 tcp:8080
-flutter run --dart-define=AUTH_MODE=spring --dart-define=GOOGLE_MODE=mock --dart-define=API_BASE_URL=http://localhost:8080</code></pre></div>
-  <p>Lệnh <code>adb reverse</code> mất hiệu lực khi rút cáp hoặc khởi động lại điện thoại, khi đó chạy lại. Gặp lỗi "adb is not recognized" xem phần <a href="#loi">Xử lý lỗi</a>.</p>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="a2-run"><span>App mở lên và đăng nhập được bằng <code>customer@courtly.vn</code> / <code>123456</code>.</span></label></li></ul>
-</section>
-
-<section class="sec" id="a3" data-mode="spring">
-  <span class="step-tag spring">Đường A · Spring Boot</span>
-  <h2>A3. Hiểu luồng chạy</h2>
-  <p>Mũi tên liền là yêu cầu, mũi tên đứt là phản hồi.</p>
-  <figure class="flow" data-flow="spring-register"><figcaption>Đăng ký bằng OTP email</figcaption></figure>
-  <figure class="flow" data-flow="spring-login"><figcaption>Đăng nhập, làm mới token, đăng xuất</figcaption></figure>
-  <figure class="flow" data-flow="spring-forgot"><figcaption>Quên mật khẩu bằng OTP email</figcaption></figure>
-  <div class="tbl"><table>
-    <thead><tr><th>Quy tắc</th><th>Giá trị</th></tr></thead>
-    <tbody>
-      <tr><td>OTP</td><td>6 số, hiệu lực 5 phút, tối đa 5 lần nhập sai, chờ 60 giây mới gửi lại, tối đa 5 lần gửi mỗi giờ; chỉ lưu bản băm</td></tr>
-      <tr><td>Mật khẩu</td><td>Băm BCrypt; khi đăng ký cần chữ hoa, chữ thường và chữ số</td></tr>
-      <tr><td>Số điện thoại</td><td>Đúng 10 số, bắt đầu bằng 0 (ví dụ <code>0912345678</code>)</td></tr>
-      <tr><td>Access token</td><td>JWT, sống 30 phút</td></tr>
-      <tr><td>Refresh token</td><td>Sống 7 ngày, đổi mới mỗi lần dùng; dùng lại token cũ thì mọi phiên bị thu hồi</td></tr>
-      <tr><td>Quên mật khẩu</td><td>Luôn trả cùng một thông báo dù email có tồn tại hay không; đặt lại xong thì đăng xuất mọi thiết bị</td></tr>
-    </tbody>
-  </table></div>
-</section>
-
-<section class="sec" id="a4" data-mode="spring">
-  <span class="step-tag spring">Đường A · Spring Boot</span>
-  <h2>A4. Kiểm tra từng chức năng</h2>
-  <ul class="tasks">
-    <li><label class="task"><input type="checkbox" data-id="a4-login"><span><b>Đăng nhập:</b> <code>customer@courtly.vn</code> / <code>123456</code> vào được. Nhập sai mật khẩu thì có thông báo lỗi, không lộ email có tồn tại hay không.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-reg"><span><b>Đăng ký:</b> nhập email thật, bấm tiếp tục, mã OTP 6 số về hộp thư (xem cả mục Spam). Nhập đúng mã thì vào app. Nhập sai mã thì báo lỗi.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-phone"><span><b>Số điện thoại:</b> nhập 9 hoặc 11 số thì bị chặn ngay trên form.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-forgot"><span><b>Quên mật khẩu:</b> nhập email đã đăng ký, nhận OTP, đặt mật khẩu mới, đăng nhập lại bằng mật khẩu mới.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-session"><span><b>Giữ phiên:</b> tắt hẳn app rồi mở lại, vẫn đăng nhập sẵn (Splash rồi vào thẳng màn chính).</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-role"><span><b>Phân quyền:</b> trong Swagger, bấm <i>Authorize</i> dán token của <code>customer</code> rồi gọi <code>GET /api/admin/ping</code> nhận 403. Dùng token của <code>admin</code> nhận 200.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="a4-google"><span><b>Google giả:</b> bấm "Đăng nhập với Google", chọn một tài khoản trong hộp DEMO, vào được app.</span></label></li>
-  </ul>
-</section>
-
-<!-- ===================== ĐƯỜNG B: FIREBASE ===================== -->
-<section class="sec" id="fs0" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
-  <h2>B0. Project demo: tải về và nhìn tổng quan</h2>
-  <p>Project demo là một app Flutter nhỏ có <b>Đăng ký, Đăng nhập, Đăng nhập Google</b> và trang chủ hiện thông tin người dùng, dữ liệu lưu ở <b>Firebase</b> (tài khoản trong Authentication, hồ sơ trong Firestore). Giao diện đã viết sẵn. Phần <b>gọi Firebase</b> được <b>cố ý để trống</b>: bạn sẽ dán từng đoạn vào đúng chỗ có dòng <code>TODO(PASTE-n)</code>, và mỗi đoạn có giải thích để hiểu nó làm gì.</p>
+<section class="sec" id="fs0">
+  <span class="step-tag firebase">Bước B0</span>
+  <h2>B0. Tải project demo về</h2>
   <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>git clone https://github.com/<span class="gh-user">&lt;tên-github&gt;</span>/<span class="gh-repo">&lt;tên-repo&gt;</span>.git
 cd <span class="gh-repo">&lt;tên-repo&gt;</span>/starter
 
 # Sinh thư mục android/ (repo không chứa sẵn). Đổi com.tenban thành tên của bạn:
 flutter create --platforms=android --org com.tenban .</code></pre></div>
   <p>Đổi <code>com.tenban</code> thành tên riêng của bạn (ví dụ <code>com.nguyenvana</code>). Package name cuối cùng là <code>com.tenban.courtly_auth_starter</code>, đó là tên bạn đăng ký với Firebase ở mục B2.</p>
-  <div class="note warn"><b>Chưa chạy được là bình thường.</b> Cho tới khi dán xong PASTE-1 và các đoạn sau, trình soạn thảo sẽ báo đỏ ở các dòng <code>import</code> của Firebase vì project chưa khai báo thư viện. Cứ làm lần lượt từng bước.</div>
+  <p>Mở thư mục <code>starter</code> bằng Android Studio. Sẽ thấy nhiều dòng báo đỏ ở các <code>import</code> của Firebase: bình thường, vì project chưa khai báo thư viện. Các bước sau sẽ lần lượt xử lý.</p>
   <div class="note"><b>Nếu <code>lib/main.dart</code> bị thay bằng app đếm số mẫu</b> (hiếm gặp), chạy <code>git checkout lib/main.dart</code>.</div>
-  <h3>Có 15 chỗ để dán</h3>
+  <h3>Cấu trúc project</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>File (trong <code>lib/</code>)</th><th>Vai trò</th><th>Bạn có phải dán code?</th></tr></thead>
+    <tbody>
+      <tr><td><code>main.dart</code></td><td>Chọn màn hình theo trạng thái đăng nhập</td><td>Có: PASTE-5, 6</td></tr>
+      <tr><td><code>services/firebase_auth_service.dart</code></td><td>Mọi lệnh gọi Firebase Authentication và Firestore</td><td>Có: PASTE-7 đến 15</td></tr>
+      <tr><td><code>services/auth_controller.dart</code></td><td>Giữ trạng thái đăng nhập cho cả app</td><td>Không</td></tr>
+      <tr><td><code>services/auth_exception.dart</code></td><td>Lỗi có thông báo tiếng Việt</td><td>Không</td></tr>
+      <tr><td><code>screens/</code> (Login, Register, Home), <code>utils/</code>, <code>models/</code></td><td>Giao diện, kiểm tra dữ liệu nhập, đối tượng người dùng</td><td>Không</td></tr>
+      <tr><td><code>pubspec.yaml</code> và thư mục <code>android/</code> (ngoài <code>lib/</code>)</td><td>Thư viện và cấu hình Android</td><td>Có: PASTE-1 đến 4</td></tr>
+    </tbody>
+  </table></div>
+  <h3>15 chỗ cần dán</h3>
+  <p>Mỗi chỗ trống trong file được đánh dấu bằng dòng <code>// TODO(PASTE-n)</code>. Dùng <b>Ctrl + Shift + F</b> trong Android Studio, tìm <code>TODO(PASTE</code> để thấy tất cả. PASTE-2, 3, 4 nằm trong <code>android/</code> do <code>flutter create</code> sinh ra, nên không có dòng TODO. Bấm vào mã để nhảy tới hướng dẫn.</p>
   <div class="tbl"><table>
     <thead><tr><th>Vị trí</th><th>File</th><th>Nội dung</th></tr></thead>
-    <tbody><tr><td><code>PASTE-1</code></td><td><code>pubspec.yaml</code></td><td>Thêm thư viện Firebase</td></tr><tr><td><code>PASTE-2</code></td><td><code>android/app/src/main/AndroidManifest.xml</code></td><td>Cho phép dùng mạng</td></tr><tr><td><code>PASTE-3</code></td><td><code>android/settings.gradle.kts</code></td><td>Khai báo plugin Google Services</td></tr><tr><td><code>PASTE-4</code></td><td><code>android/app/build.gradle.kts</code></td><td>Bật plugin Google Services cho app</td></tr><tr><td><code>PASTE-5</code></td><td><code>lib/main.dart</code></td><td>Import firebase_core</td></tr><tr><td><code>PASTE-6</code></td><td><code>lib/main.dart</code></td><td>Khởi tạo Firebase</td></tr><tr><td><code>PASTE-7</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Web client ID của Google Sign-In</td></tr><tr><td><code>PASTE-8</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Khôi phục phiên đăng nhập</td></tr><tr><td><code>PASTE-9</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng ký tài khoản</td></tr><tr><td><code>PASTE-10</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng nhập bằng email và mật khẩu</td></tr><tr><td><code>PASTE-11</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng nhập bằng Google</td></tr><tr><td><code>PASTE-12</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Quên mật khẩu</td></tr><tr><td><code>PASTE-13</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng xuất</td></tr><tr><td><code>PASTE-14</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Ghi hồ sơ lên Firestore</td></tr><tr><td><code>PASTE-15</code></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đọc hồ sơ từ Firestore</td></tr></tbody>
+    <tbody><tr><td><a href="#paste-1"><code>PASTE-1</code></a></td><td><code>pubspec.yaml</code></td><td>Thêm thư viện Firebase</td></tr><tr><td><a href="#paste-2"><code>PASTE-2</code></a></td><td><code>android/app/src/main/AndroidManifest.xml</code></td><td>Cho phép dùng mạng</td></tr><tr><td><a href="#paste-3"><code>PASTE-3</code></a></td><td><code>android/settings.gradle.kts</code></td><td>Khai báo plugin Google Services</td></tr><tr><td><a href="#paste-4"><code>PASTE-4</code></a></td><td><code>android/app/build.gradle.kts</code></td><td>Bật plugin Google Services cho app</td></tr><tr><td><a href="#paste-5"><code>PASTE-5</code></a></td><td><code>lib/main.dart</code></td><td>Import firebase_core</td></tr><tr><td><a href="#paste-6"><code>PASTE-6</code></a></td><td><code>lib/main.dart</code></td><td>Khởi tạo Firebase</td></tr><tr><td><a href="#paste-7"><code>PASTE-7</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Web client ID của Google Sign-In</td></tr><tr><td><a href="#paste-8"><code>PASTE-8</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Khôi phục phiên đăng nhập</td></tr><tr><td><a href="#paste-9"><code>PASTE-9</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng ký tài khoản</td></tr><tr><td><a href="#paste-10"><code>PASTE-10</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng nhập bằng email và mật khẩu</td></tr><tr><td><a href="#paste-11"><code>PASTE-11</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng nhập bằng Google</td></tr><tr><td><a href="#paste-12"><code>PASTE-12</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Quên mật khẩu</td></tr><tr><td><a href="#paste-13"><code>PASTE-13</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đăng xuất</td></tr><tr><td><a href="#paste-14"><code>PASTE-14</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Ghi hồ sơ lên Firestore</td></tr><tr><td><a href="#paste-15"><code>PASTE-15</code></a></td><td><code>lib/services/firebase_auth_service.dart</code></td><td>Đọc hồ sơ từ Firestore</td></tr></tbody>
   </table></div>
-  <p>Trong file, mỗi chỗ trống được đánh dấu bằng một dòng comment <code>// TODO(PASTE-n)</code> (PASTE-2, 3, 4 nằm trong thư mục <code>android/</code> mà <code>flutter create</code> vừa sinh, nên không có dòng TODO; trang này chỉ rõ chỗ dán). Dùng <b>Ctrl + Shift + F</b> trong Android Studio, tìm <code>TODO(PASTE</code> để thấy tất cả. Mỗi mục ở B2b có nút "Sao chép" cho đoạn cần dán.</p>
-  <p><b>Bí quá?</b> Thư mục <code>snippets/</code> chứa các file <b>đã dán xong</b> (<code>*.txt</code>) để bạn đối chiếu. Xem sau khi đã tự thử.</p>
+  <div class="note ok"><b>Bí quá?</b> Thư mục <code>snippets/</code> của project chứa các file <b>đã dán xong</b> (<code>*.txt</code>) để đối chiếu. Hãy tự thử trước rồi mới xem.</div>
   <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="fs0-clone"><span>Đã clone, chạy <code>flutter create</code> và mở project trong Android Studio.</span></label></li></ul>
 </section>
 
-<section class="sec" id="f1" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
+<section class="sec" id="f1">
+  
   <h2>B1. Cấu hình project Firebase</h2>
   <p>Không cần backend hay Docker. Bước này làm trên <a href="https://console.firebase.google.com" target="_blank" rel="noopener">Firebase Console</a> bởi người có quyền Owner hoặc Editor của project.</p>
   <ol>
@@ -720,8 +329,8 @@ service cloud.firestore {
   </ul>
 </section>
 
-<section class="sec" id="f2" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
+<section class="sec" id="f2">
+  
   <h2>B2. Gắn ứng dụng Android vào Firebase</h2>
   <h3>2.1. Package name phải khớp</h3>
   <p>Trong Firebase: <i>Project settings → Your apps → Add app → Android</i>. Ô <b>Android package name</b> phải bằng đúng <code>applicationId</code> trong <code>android/app/build.gradle.kts</code> của dự án bạn (dự án mẫu là <code>vn.courtly.courtly</code>).</p>
@@ -741,23 +350,22 @@ service cloud.firestore {
   <h3>2.3. Tải lại <code>google-services.json</code></h3>
   <p><b>Sau khi</b> thêm SHA-1, tải lại <code>google-services.json</code> từ cùng trang và đặt vào <code>android/app/</code>. Mở file kiểm tra: mỗi SHA-1 đã đăng ký tương ứng một mục <code>"client_type": 1</code>. Thiếu mục của bạn nghĩa là bạn tải file trước khi thêm SHA-1.</p>
 
-  <h3>2.4. Điền Web client ID</h3>
-  <p>Google Sign-In trên Android cần Web client ID để trả về <code>idToken</code>. Lấy trong <code>google-services.json</code> ở mục có <code>"client_type": 3</code>, hoặc ở <i>Authentication → Sign-in method → Google → Web SDK configuration</i>. Điền vào <code>lib/config/app_config.dart</code> (nếu dùng project demo thì đây là PASTE-7 ở mục B2b):</p>
-  <div class="code"><div class="code-bar"><span>lib/config/app_config.dart</span><button class="copy" type="button">Sao chép</button></div><pre><code>static const String googleServerClientId =
-    '<i>XXXXXXXXXXXX-xxxxxxxx.apps.googleusercontent.com</i>';</code></pre></div>
+  <h3>2.4. Lấy Web client ID</h3>
+  <p>Google Sign-In trên Android cần <b>Web client ID</b> để trả về <code>idToken</code>. Lấy trong <code>google-services.json</code>, ở mục có <code>"client_type": 3</code>, trường <code>client_id</code> (dạng <code>XXXX-xxxx.apps.googleusercontent.com</code>). Hoặc ở <i>Authentication → Sign-in method → Google → Web SDK configuration</i>. Giữ giá trị này, bạn sẽ dán ở <a href="#paste-7">PASTE-7</a>.</p>
   <ul class="tasks">
     <li><label class="task"><input type="checkbox" data-id="f2-pkg"><span>Package name trong Firebase trùng <code>applicationId</code>.</span></label></li>
     <li><label class="task"><input type="checkbox" data-id="f2-sha"><span>SHA-1 của máy tôi đã nằm trong danh sách fingerprint.</span></label></li>
     <li><label class="task"><input type="checkbox" data-id="f2-json"><span><code>google-services.json</code> mới (có mục của tôi) đã ở <code>android/app/</code>.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="f2-web"><span>Đã điền <code>googleServerClientId</code>.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="f2-web"><span>Đã lấy được Web client ID (client_type 3).</span></label></li>
   </ul>
 </section>
 
-<section class="sec" id="fs1" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
-  <h2>B2b. Dán code vào project demo</h2>
-  <div class="note warn"><b>Làm B1 và B2 trước</b> (tạo project Firebase, bật Email/Password và Google, tạo Firestore và dán Rules, thêm SHA-1, tải <code>google-services.json</code> vào <code>android/app/</code>). Mục này là phần viết code. Các đoạn dán theo thứ tự từ trên xuống.</div>
-  <h3 class="grp-h">Thư viện</h3><p>Khai báo các package Firebase mà project cần.</p>
+<section class="sec" id="fs1">
+  <span class="step-tag firebase">Bước B3</span>
+  <h2>B3. Dán code vào project demo</h2>
+  <div class="note warn"><b>Làm B1 và B2 trước</b> (tạo project Firebase, bật Email/Password và Google, tạo Firestore và dán Rules, thêm SHA-1, đặt <code>google-services.json</code> vào <code>android/app/</code>). Mục này là phần viết code, dán theo thứ tự từ trên xuống.</div>
+  <p>Mỗi chỗ dán có: <b>file</b> và <b>vị trí</b>, đoạn code có nút "Sao chép", và phần <b>"Giải thích code vừa dán"</b> (bấm để mở). Giữ nguyên thụt lề khi dán; Android Studio có thể tự căn lại bằng <b>Ctrl + Alt + L</b>.</p>
+  <h3 class="grp-h">3.1. Thư viện (dependency)</h3><p>Khai báo các package Firebase mà project cần.</p>
   <div class="slot" id="paste-1">
     <h3><span class="pill">PASTE-1</span> Thêm thư viện Firebase</h3>
     <p class="where">File <code>pubspec.yaml</code> &middot; mục dependencies, dưới dòng cupertino_icons.</p>
@@ -768,26 +376,32 @@ service cloud.firestore {
     <details class="why"><summary>Giải thích code vừa dán</summary><div class="body"><ul><li><code>firebase_core</code>: nền tảng, bắt buộc phải có để dùng bất kỳ dịch vụ Firebase nào.</li><li><code>firebase_auth</code>: đăng ký, đăng nhập, quên mật khẩu, đăng nhập bằng credential của Google.</li><li><code>cloud_firestore</code>: cơ sở dữ liệu đám mây, nơi lưu hồ sơ người dùng.</li><li><code>google_sign_in</code>: mở hộp chọn tài khoản Google trên điện thoại.</li><li>Sau khi lưu file, chạy <code>flutter pub get</code>. Số phiên bản lấy từ dự án mẫu; có thể dùng <code>flutter pub add firebase_core firebase_auth cloud_firestore google_sign_in</code> để Flutter tự chọn.</li></ul></div></details>
     <label class="task"><input type="checkbox" data-id="paste-1"><span>Đã dán PASTE-1.</span></label>
   </div>
-  <h3 class="grp-h">Android: 3 chỗ trong thư mục <code>android/</code></h3><p>Thư mục này do <code>flutter create</code> sinh ra nên không có dòng TODO. Mở từng file và thêm đúng một dòng như dưới đây (giữ nguyên các dòng có sẵn).</p>
+  <h3 class="grp-h">3.2. Cấu hình Android: 3 chỗ trong <code>android/</code></h3>
+  <p>Thư mục này do <code>flutter create</code> sinh ra nên không có dòng TODO. Mở từng file và thêm đúng một dòng như dưới đây (giữ nguyên các dòng có sẵn).</p>
+  
   <div class="slot" id="paste-2">
     <h3><span class="pill">PASTE-2</span> Cho phép dùng mạng</h3>
     <p class="where">File <code>android/app/src/main/AndroidManifest.xml</code> &middot; ngay trên thẻ &lt;application&gt;.</p>
     <div class="code"><div class="code-bar"><span>thêm vào android/app/src/main/AndroidManifest.xml</span><button class="copy" type="button">Sao chép</button></div><pre><code>    &lt;uses-permission android:name="android.permission.INTERNET"/&gt;</code></pre></div>
-    <label class="task"><input type="checkbox" data-id="paste-2"><span>Đã thêm PASTE-2.</span></label>
+    
+    <label class="task"><input type="checkbox" data-id="paste-2"><span>Đã dán PASTE-2.</span></label>
   </div>
   <div class="slot" id="paste-3">
     <h3><span class="pill">PASTE-3</span> Khai báo plugin Google Services</h3>
     <p class="where">File <code>android/settings.gradle.kts</code> &middot; trong khối plugins { }.</p>
     <div class="code"><div class="code-bar"><span>thêm vào android/settings.gradle.kts</span><button class="copy" type="button">Sao chép</button></div><pre><code>    id("com.google.gms.google-services") version "4.5.0" apply false</code></pre></div>
-    <label class="task"><input type="checkbox" data-id="paste-3"><span>Đã thêm PASTE-3.</span></label>
+    
+    <label class="task"><input type="checkbox" data-id="paste-3"><span>Đã dán PASTE-3.</span></label>
   </div>
   <div class="slot" id="paste-4">
     <h3><span class="pill">PASTE-4</span> Bật plugin Google Services cho app</h3>
     <p class="where">File <code>android/app/build.gradle.kts</code> &middot; trong khối plugins { }, trên dòng dev.flutter.flutter-gradle-plugin.</p>
     <div class="code"><div class="code-bar"><span>thêm vào android/app/build.gradle.kts</span><button class="copy" type="button">Sao chép</button></div><pre><code>    id("com.google.gms.google-services")</code></pre></div>
-    <label class="task"><input type="checkbox" data-id="paste-4"><span>Đã thêm PASTE-4.</span></label>
-  </div><div class="note">Plugin <code>com.google.gms.google-services</code> đọc <code>android/app/google-services.json</code> lúc build. Thiếu file này (tải ở mục B2) thì build báo lỗi. Cần Android 6.0 trở lên: nếu build báo "minSdkVersion", đặt <code>minSdk = 23</code> trong <code>android/app/build.gradle.kts</code>. Chi tiết thêm ở <a href="#b3">Bước 3 phần chung</a>.</div>
-  <h3 class="grp-h">Khởi tạo Firebase trong <code>main.dart</code></h3><p>Hai chỗ trong cùng một file, đều ở đầu file.</p>
+    
+    <label class="task"><input type="checkbox" data-id="paste-4"><span>Đã dán PASTE-4.</span></label>
+  </div>
+  <div class="note">Plugin <code>com.google.gms.google-services</code> đọc <code>android/app/google-services.json</code> lúc build; thiếu file này (tải ở B2) thì build báo lỗi. Firebase cần Android 6.0 trở lên: nếu build báo "minSdkVersion", đặt <code>minSdk = 23</code> trong <code>android/app/build.gradle.kts</code>.</div>
+  <h3 class="grp-h">3.3. Khởi tạo Firebase trong <code>main.dart</code></h3><p>Hai chỗ trong cùng một file, đều ở đầu file.</p>
   <div class="slot" id="paste-5">
     <h3><span class="pill">PASTE-5</span> Import firebase_core</h3>
     <p class="where">File <code>lib/main.dart</code> &middot; phần import, dưới dòng TODO(PASTE-5).</p>
@@ -802,7 +416,7 @@ service cloud.firestore {
     <details class="why"><summary>Giải thích code vừa dán</summary><div class="body"><ul><li>Đọc cấu hình từ <code>android/app/google-services.json</code> và kết nối app với project Firebase của bạn.</li><li>Phải chạy <b>trước</b> <code>runApp</code> và sau <code>WidgetsFlutterBinding.ensureInitialized()</code>. Thiếu dòng này, mọi lệnh Firebase báo lỗi "no-app".</li></ul></div></details>
     <label class="task"><input type="checkbox" data-id="paste-6"><span>Đã dán PASTE-6.</span></label>
   </div>
-  <h3 class="grp-h">Dịch vụ xác thực <code>firebase_auth_service.dart</code></h3><p>Một file duy nhất nói chuyện với Firebase. Mỗi chỗ trống có sẵn dòng <code>throw UnimplementedError(...)</code>: <b>xoá dòng đó</b> rồi dán code vào chỗ của nó (riêng PASTE-7 thay dòng const, PASTE-13 chỉ có comment).</p>
+  <h3 class="grp-h">3.4. Dịch vụ xác thực <code>firebase_auth_service.dart</code></h3><p>Một file duy nhất nói chuyện với Firebase. Mỗi chỗ trống có sẵn dòng <code>throw UnimplementedError(...)</code>: <b>xoá dòng đó</b> rồi dán code vào chỗ của nó (riêng PASTE-7 thay dòng <code>const</code>, PASTE-13 chỉ có dòng comment).</p>
   <div class="slot" id="paste-7">
     <h3><span class="pill">PASTE-7</span> Web client ID của Google Sign-In</h3>
     <p class="where">File <code>lib/services/firebase_auth_service.dart</code> &middot; đầu file, thay cho dòng const googleServerClientId.</p>
@@ -950,36 +564,16 @@ service cloud.firestore {
     <details class="why"><summary>Giải thích code vừa dán</summary><div class="body"><ul><li>Đọc đúng tài liệu <code>users/{uid}</code> của người dùng hiện tại. Rules chỉ cho đọc hồ sơ của chính mình.</li><li><code>_fromData</code> (đã viết sẵn) chuyển dữ liệu Firestore thành đối tượng <code>AppUser</code>.</li></ul></div></details>
     <label class="task"><input type="checkbox" data-id="paste-15"><span>Đã dán PASTE-15.</span></label>
   </div>
-  <h3 class="grp-h">Chạy thử</h3>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter pub get
-flutter clean
-flutter run</code></pre></div>
-  <p>Không cần <code>--dart-define</code> gì cả. Kiểm tra theo thứ tự:</p>
-  <ul class="tasks">
-    <li><label class="task"><input type="checkbox" data-id="fs1-reg"><span><b>Đăng ký:</b> tạo tài khoản mới. Trong Firebase Console thấy user ở <i>Authentication → Users</i> và tài liệu cùng <code>uid</code> ở <i>Firestore → users</i>.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="fs1-login"><span><b>Đăng nhập:</b> đăng xuất rồi đăng nhập lại bằng email vừa tạo; tắt app mở lại vẫn đăng nhập sẵn.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="fs1-google"><span><b>Google:</b> chọn Gmail thật, vào được trang chủ; Firestore có tài liệu mới với <code>authProvider = GOOGLE</code>.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="fs1-forgot"><span><b>Quên mật khẩu:</b> nhận được email chứa liên kết đặt lại mật khẩu.</span></label></li>
-  </ul>
-  <div class="note"><b>Gặp lỗi?</b> Xem mục <a href="#loi">Xử lý lỗi thường gặp</a> (huỷ đăng nhập Google, Firestore từ chối quyền, build hết RAM). Thông báo "<code>UnimplementedError: PASTE-n</code>" nghĩa là bạn chưa dán chỗ số n.</div>
+  <div class="note ok"><b>Dán xong rồi?</b> Tìm <code>TODO(PASTE</code> một lần nữa: không còn kết quả nào trong <code>lib/</code> và <code>pubspec.yaml</code> là đủ.</div>
 </section>
 
-<section class="sec" id="f3" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
-  <h2>B3. Chạy Flutter</h2>
-  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter clean
-flutter run --dart-define=AUTH_MODE=firebase</code></pre></div>
-  <p>Dùng <b>dự án mẫu</b> thì chạy <code>flutter run</code> là đủ, không cần <code>--dart-define</code>. Với module đầy đủ thì dùng lệnh trên. Không cần <code>API_BASE_URL</code>, không cần bật backend, điện thoại không cần chung Wi-Fi với máy tính. Để <code>GOOGLE_MODE</code> mặc định (<code>firebase</code>). Google giả không dùng được ở chế độ này.</p>
-  <ul class="tasks"><li><label class="task"><input type="checkbox" data-id="f3-run"><span>App chạy ở chế độ Firebase (đăng ký tài khoản mới thành công).</span></label></li></ul>
-</section>
-
-<section class="sec" id="f4" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
-  <h2>B4. Hiểu luồng chạy</h2>
+<section class="sec" id="f4">
+  
+  <h2>B4. Hiểu luồng vừa dán</h2>
   <figure class="flow" data-flow="firebase-register"><figcaption>Đăng ký (email + mật khẩu)</figcaption></figure>
   <figure class="flow" data-flow="firebase-login"><figcaption>Đăng nhập và khôi phục phiên</figcaption></figure>
   <figure class="flow" data-flow="firebase-google"><figcaption>Đăng nhập Google</figcaption></figure>
-  <p>Hồ sơ người dùng lưu ở <code>users/{uid}</code> trong Firestore:</p>
+  <p>Hồ sơ người dùng do PASTE-14 ghi lên <code>users/{uid}</code> trong Firestore:</p>
   <div class="code"><div class="code-bar"><span>Firestore · users/{uid}</span><button class="copy" type="button">Sao chép</button></div><pre><code>{
   "fullName": "Nguyễn Văn A",
   "email": "a@gmail.com",
@@ -990,186 +584,131 @@ flutter run --dart-define=AUTH_MODE=firebase</code></pre></div>
 }</code></pre></div>
 </section>
 
-<section class="sec" id="f5" data-mode="firebase">
-  <span class="step-tag firebase">Đường B · Firebase</span>
-  <h2>B5. Kiểm tra từng chức năng</h2>
+<section class="sec" id="f5">
+  <span class="step-tag firebase">Bước B5</span>
+  <h2>B5. Chạy và kiểm tra</h2>
+  <div class="code"><div class="code-bar"><span>terminal</span><button class="copy" type="button">Sao chép</button></div><pre><code>flutter pub get
+flutter clean
+flutter run</code></pre></div>
+  <p>Không cần <code>--dart-define</code> hay backend gì cả; điện thoại cũng không cần chung Wi-Fi với máy tính. Kiểm tra theo thứ tự:</p>
   <ul class="tasks">
     <li><label class="task"><input type="checkbox" data-id="f5-reg"><span><b>Đăng ký:</b> tạo tài khoản mới. Vào Console, thấy user trong <i>Authentication → Users</i> và tài liệu cùng <code>uid</code> trong <i>Firestore → users</i>.</span></label></li>
     <li><label class="task"><input type="checkbox" data-id="f5-mail"><span><b>Email xác minh:</b> hộp thư (hoặc Spam) có email từ Firebase chứa liên kết xác minh.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="f5-login"><span><b>Đăng nhập lại:</b> đăng xuất rồi đăng nhập bằng email vừa tạo. Nhập sai mật khẩu thì báo "Email hoặc mật khẩu không đúng".</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="f5-google"><span><b>Google:</b> chọn Gmail thật của máy, vào được app; Firestore có tài liệu mới với <code>authProvider = GOOGLE</code>.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="f5-forgot"><span><b>Quên mật khẩu:</b> nhập email, Firebase gửi liên kết đặt lại mật khẩu.</span></label></li>
-    <li><label class="task"><input type="checkbox" data-id="f5-admin"><span><b>Admin:</b> trong Firestore sửa <code>role</code> của một người thành <code>ADMIN</code>, mở lại app thì nút vào màn quản trị xuất hiện.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="f5-login"><span><b>Đăng nhập lại:</b> đăng xuất rồi đăng nhập bằng email vừa tạo. Nhập sai mật khẩu thì báo "Email hoặc mật khẩu không đúng". Tắt hẳn app rồi mở lại vẫn đăng nhập sẵn.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="f5-google"><span><b>Google:</b> chọn Gmail thật của máy, vào được trang chủ; Firestore có tài liệu mới với <code>authProvider = GOOGLE</code>.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="f5-forgot"><span><b>Quên mật khẩu:</b> bấm "Quên mật khẩu?", nhập email, nhận email chứa liên kết đặt lại mật khẩu.</span></label></li>
+    <li><label class="task"><input type="checkbox" data-id="f5-admin"><span><b>Vai trò:</b> trong Firestore sửa <code>role</code> của một người thành <code>ADMIN</code>, đăng nhập lại thì trang chủ hiện vai trò ADMIN. Còn từ trong app thì không tự đổi được (Rules chặn).</span></label></li>
   </ul>
-  <div class="note warn"><b>Khác với đường Spring.</b>
+  <div class="note warn"><b>Giới hạn của project demo.</b>
     <ul style="margin:.3em 0 0">
       <li>Không có OTP 6 số khi đăng ký; Firebase gửi email xác minh dạng liên kết và app chưa bắt buộc bấm nó mới được vào.</li>
-      <li>Chỉ đăng nhập bằng email, không bằng số điện thoại. Số điện thoại chỉ lưu vào hồ sơ.</li>
+      <li>Chỉ đăng nhập bằng email. Số điện thoại chỉ được lưu vào hồ sơ.</li>
       <li>Mật khẩu tối thiểu 6 ký tự (quy tắc của Firebase).</li>
-      <li>Nút "Khám phá với tài khoản demo" dùng <code>demo@courtly.vn</code> / <code>123456</code>, tài khoản này <b>chưa tồn tại</b> trong project của bạn. Hãy đăng ký nó một lần trước.</li>
     </ul>
   </div>
 </section>
 
-<!-- ===================== LỖI THƯỜNG GẶP ===================== -->
 <section class="sec" id="loi">
   <span class="step-tag">Sửa lỗi</span>
   <h2>Xử lý lỗi thường gặp</h2>
   <p>Các lỗi dưới đây là lỗi nhóm đã gặp thật khi chạy dự án. Bấm vào từng mục để mở.</p>
-
-  <details data-mode="spring">
-    <summary>"Không thể kết nối máy chủ" khi đăng nhập <span class="badge spring">Spring</span></summary>
-    <div class="body">
-      <p><b>Nguyên nhân hay gặp:</b> địa chỉ backend sai cho loại thiết bị đang dùng.</p>
-      <ul>
-        <li>Máy ảo Android: dùng <code>10.0.2.2</code> (mặc định, không cần <code>API_BASE_URL</code>).</li>
-        <li>Điện thoại thật: <code>10.0.2.2</code> và <code>localhost</code> đều sai. Dùng IP LAN của máy tính (<code>--dart-define=API_BASE_URL=http://IP:8080</code>), hoặc <code>adb reverse</code> rồi dùng <code>localhost</code>.</li>
-        <li>Dùng IP ví dụ trong tài liệu (<code>192.168.1.10</code>, <code>192.168.1.13</code>) mà không đổi sang IP máy bạn.</li>
-        <li>Máy tính có nhiều card mạng: chọn IP của card Wi-Fi, không chọn IP WSL/Docker (<code>172.x</code>).</li>
-        <li>Điện thoại và máy tính không cùng Wi-Fi, hoặc Wi-Fi chặn các thiết bị nhìn thấy nhau (Wi-Fi công cộng, trường học): dùng cáp USB với <code>adb reverse</code>.</li>
-        <li>Chưa dừng app và chạy lại sau khi đổi <code>--dart-define</code>.</li>
-      </ul>
-      <p><b>Phép thử nhanh:</b> mở <code>http://IP-máy-tính:8080/swagger-ui.html</code> bằng Chrome trên điện thoại. Không mở được thì là mạng hoặc firewall.</p>
-    </div>
-  </details>
-
-  <details data-mode="spring">
-    <summary>"Máy chủ phản hồi quá lâu" (timeout) <span class="badge spring">Spring</span></summary>
-    <div class="body">
-      <p>App đã gửi yêu cầu nhưng không nhận được phản hồi. Khác với "không thể kết nối".</p>
-      <ul>
-        <li><b>Firewall Windows bỏ gói tin:</b> tạo luật cho phép cổng TCP 8080 (Windows Defender Firewall → Advanced settings → Inbound Rules → New Rule → Port → TCP 8080 → Allow).</li>
-        <li><b>Backend kẹt vì SQL Server chưa sẵn sàng:</b> chạy <code>docker compose ps</code> và <code>docker compose logs --tail=100 app</code>. Tìm <code>Login failed</code>, <code>Connection refused</code> hoặc <code>HikariPool ... timeout</code>.</li>
-        <li><b>Backend vừa khởi động:</b> chờ log hiện <code>Started ...</code> (có thể mất 30 đến 60 giây).</li>
-        <li><b><code>adb reverse</code> đã mất hiệu lực:</b> chạy lại lệnh.</li>
-      </ul>
-    </div>
+  <details>
+    <summary>Thông báo "UnimplementedError: PASTE-n"</summary>
+    <div class="body"><p>Bạn chưa dán chỗ số n (hoặc dán xong mà quên xoá dòng <code>throw UnimplementedError(...)</code> ngay dưới dòng TODO). Mở <code>firebase_auth_service.dart</code>, tìm <code>PASTE-n</code> và làm theo mục tương ứng ở B3.</p></div>
   </details>
 
   <details>
-    <summary>"adb is not recognized" (không tìm thấy lệnh adb) <span class="badge all">Chung</span></summary>
-    <div class="body">
-      <p><code>adb</code> nằm trong Android SDK nhưng chưa có trong PATH. Gọi bằng đường dẫn đầy đủ:</p>
-      <div class="code" data-os="win"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>&amp; "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices
-&amp; "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:8080 tcp:8080</code></pre></div>
-      <div class="code" data-os="mac"><div class="code-bar"><span>bash</span><button class="copy" type="button">Sao chép</button></div><pre><code>~/Library/Android/sdk/platform-tools/adb devices      # macOS
-~/Android/Sdk/platform-tools/adb devices              # Linux</code></pre></div>
-      <p>Lệnh <code>devices</code> phải liệt kê điện thoại với trạng thái <code>device</code>. Hiện <code>unauthorized</code> thì mở khoá điện thoại và bấm "Cho phép gỡ lỗi USB". SDK nằm chỗ khác thì xem <i>Android Studio → Settings → Android SDK → Android SDK Location</i>.</p>
-    </div>
+    <summary>Báo đỏ ở <code>import</code> của <code>firebase_auth</code>, <code>cloud_firestore</code>, <code>google_sign_in</code></summary>
+    <div class="body"><p>Chưa làm PASTE-1, hoặc đã dán nhưng chưa chạy <code>flutter pub get</code>. Nếu <code>pub get</code> báo lỗi về phiên bản (version solving) hay yêu cầu SDK mới hơn: chạy <code>flutter upgrade</code>, hoặc xoá 4 dòng đã dán và dùng lệnh <code>flutter pub add firebase_core firebase_auth cloud_firestore google_sign_in</code> để Flutter tự chọn phiên bản tương thích.</p></div>
   </details>
 
-  <details data-mode="spring">
-    <summary>OTP không về, hoặc báo lỗi 503 / 429 <span class="badge spring">Spring</span></summary>
-    <div class="body">
-      <ul>
-        <li><b>503:</b> backend chưa cấu hình Gmail. Kiểm tra <code>MAIL_USERNAME</code>, <code>MAIL_PASSWORD</code> (App Password 16 ký tự viết liền, không phải mật khẩu Gmail) rồi <code>docker compose up -d app</code>.</li>
-        <li><b>429:</b> gửi quá nhanh (chờ 60 giây) hoặc quá 5 lần trong một giờ.</li>
-        <li>Không thấy thư: kiểm tra mục Spam. Thư gửi từ chính địa chỉ <code>MAIL_USERNAME</code>.</li>
-        <li><b>Chế độ mock</b> (không có <code>--dart-define</code>) không gửi mail thật; OTP luôn là <code>123456</code>.</li>
-      </ul>
-    </div>
+  <details>
+    <summary>Build lỗi "google-services.json is missing" hoặc "No matching client found for package name"</summary>
+    <div class="body"><ul><li><b>Missing:</b> chưa đặt <code>google-services.json</code> vào <code>android/app/</code> (tải ở B2.3).</li><li><b>No matching client:</b> package name trong Firebase khác <code>applicationId</code> của project. Mở <code>android/app/build.gradle.kts</code> xem <code>applicationId</code>, rồi đăng ký đúng tên đó trong Firebase (hoặc chạy lại <code>flutter create --org ...</code> với org khớp).</li></ul></div>
   </details>
 
-  <details data-mode="spring">
-    <summary>Backend không khởi động <span class="badge spring">Spring</span></summary>
-    <div class="body">
-      <ul>
-        <li>Thiếu <code>MSSQL_SA_PASSWORD</code> hoặc <code>JWT_SECRET</code> trong <code>.env</code>: Docker Compose báo ngay khi chạy.</li>
-        <li>Mật khẩu SQL Server yếu: SQL Server từ chối. Dùng ≥ 8 ký tự, có chữ hoa, chữ thường, số và ký tự đặc biệt.</li>
-        <li>Bật cùng lúc <code>FIREBASE_ENABLED=true</code> và <code>GOOGLE_MOCK_ENABLED=true</code>: app từ chối khởi động. Chỉ bật một.</li>
-        <li><code>FIREBASE_ENABLED=true</code> nhưng chưa có file ở <code>./secrets/service-account.json</code>: app báo không đọc được file service account.</li>
-        <li>Xem lỗi cụ thể bằng <code>docker compose logs --tail=100 app</code>.</li>
-      </ul>
-    </div>
+  <details>
+    <summary>"Firebase chưa được khởi tạo" (no-app)</summary>
+    <div class="body"><p>Chưa dán PASTE-5 và PASTE-6, hoặc dòng <code>await Firebase.initializeApp();</code> nằm sau <code>runApp</code>. Nó phải nằm trong <code>main()</code>, sau <code>WidgetsFlutterBinding.ensureInitialized()</code> và trước <code>runApp</code>. Sau khi sửa phải chạy lại hẳn app (không dùng hot reload).</p></div>
   </details>
 
-  <details data-mode="spring">
-    <summary>Số điện thoại bị từ chối <span class="badge spring">Spring</span></summary>
-    <div class="body">
-      <p>Số điện thoại phải đúng 10 chữ số và bắt đầu bằng 0 (ví dụ <code>0912345678</code>). Backend nhận <code>0</code> hoặc <code>+84</code> cộng 9 số, Flutter chuẩn hoá về dạng 10 số trước khi gửi. Hai bên phải cùng quy tắc, nếu bạn đổi một bên thì đổi cả bên kia.</p>
-    </div>
-  </details>
-
-  <details data-mode="firebase">
-    <summary>"Bạn đã huỷ đăng nhập Google" dù không bấm huỷ <span class="badge firebase">Firebase</span></summary>
-    <div class="body">
-      <p>Gần như luôn do <b>SHA-1 của máy bạn chưa đăng ký</b> trong Firebase. Khi không khớp, Google trả mã <code>canceled</code> và app dịch thành câu trên.</p>
+  <details>
+    <summary>"Bạn đã huỷ đăng nhập Google" dù không bấm huỷ</summary>
+    <div class="body"><p>Gần như luôn do <b>SHA-1 của máy bạn chưa đăng ký</b> trong Firebase. Khi không khớp, Google trả mã <code>canceled</code> và app dịch thành câu trên.</p>
       <ol>
         <li>Lấy SHA-1 máy bạn (mục B2.2) và nhờ người quản trị Firebase thêm vào đúng app Android.</li>
         <li>Tải lại <code>google-services.json</code> <b>sau khi</b> thêm. File mới có thêm một mục <code>client_type: 1</code>.</li>
-        <li>Chạy <code>flutter clean</code> rồi <code>flutter run --dart-define=AUTH_MODE=firebase</code>.</li>
+        <li>Chạy <code>flutter clean</code> rồi <code>flutter run</code>.</li>
       </ol>
-      <p>Nếu SHA-1 đã đúng mà vẫn lỗi: kiểm tra điện thoại có tài khoản Google và Play Services mới, máy ảo là loại có Google Play, <code>googleServerClientId</code> là Web client ID của đúng project, và Google đã bật trong Authentication.</p>
-    </div>
+      <p>Nếu SHA-1 đã đúng mà vẫn lỗi: kiểm tra điện thoại có tài khoản Google và Play Services mới, máy ảo là loại có Google Play, PASTE-7 là Web client ID (client_type 3) của đúng project, và Google đã bật trong Authentication.</p></div>
   </details>
 
-  <details data-mode="firebase">
-    <summary>"Firestore từ chối quyền truy cập" <span class="badge firebase">Firebase</span></summary>
-    <div class="body">
-      <p>Luật bảo vệ Firestore chưa được áp dụng đúng. Dấu hiệu: tài khoản vẫn xuất hiện trong Authentication nhưng đăng ký hoặc đăng nhập báo lỗi.</p>
+  <details>
+    <summary>"Chưa điền googleServerClientId"</summary>
+    <div class="body"><p>Bạn chưa làm PASTE-7, hoặc dòng <code>const</code> vẫn là giá trị mẫu. Dán Web client ID thật (B2.4).</p></div>
+  </details>
+
+  <details>
+    <summary>"Firestore từ chối quyền truy cập"</summary>
+    <div class="body"><p>Luật bảo vệ Firestore chưa được áp dụng đúng. Dấu hiệu: tài khoản vẫn xuất hiện trong Authentication nhưng đăng ký hoặc đăng nhập báo lỗi.</p>
       <ul>
         <li>Vào <i>Firestore → Rules</i>, đảm bảo nội dung là luật ở mục B1 và đã bấm <b>Publish</b>.</li>
         <li>Luật mặc định <code>allow read, write: if false;</code>, hoặc luật "test mode" đã hết hạn, đều gây lỗi này.</li>
-        <li>Thử trong <i>Rules Playground</i> với thao tác <code>get</code> trên <code>/users/&lt;uid&gt;</code>, bật Authenticated.</li>
+        <li>Kiểm tra PASTE-14: <code>role</code> phải đúng <code>'CUSTOMER'</code> và <code>email</code> là email viết thường của tài khoản, nếu không Rules sẽ từ chối.</li>
         <li>Database phải có id <code>(default)</code>, và bạn đang xem đúng project.</li>
       </ul>
-      <p>Tài khoản đã tạo dở dang sẽ tự có hồ sơ ở lần đăng nhập thành công kế tiếp sau khi sửa luật.</p>
-    </div>
-  </details>
-
-  <details data-mode="firebase">
-    <summary>"Chưa bật đăng nhập Email/Password" hoặc "Chưa tạo Firestore Database" <span class="badge firebase">Firebase</span></summary>
-    <div class="body">
-      <p>Đó là hai việc ở mục B1. Vào Console bật <b>Email/Password</b> trong Authentication và tạo Firestore Database.</p>
-    </div>
+      <p>Tài khoản đã tạo dở dang sẽ tự có hồ sơ ở lần đăng nhập thành công kế tiếp sau khi sửa luật.</p></div>
   </details>
 
   <details>
-    <summary>Build lỗi "Gradle build daemon disappeared unexpectedly" <span class="badge all">Chung</span></summary>
-    <div class="body">
-      <p>File <code>android/hs_err_pid....log</code> ghi "insufficient memory": máy hết RAM khi build. Thường do Docker (WSL2) và Android Studio cùng chiếm bộ nhớ.</p>
-      <div class="code"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>docker compose down      # nếu đang chạy backend
-wsl --shutdown
+    <summary>"Chưa bật đăng nhập Email/Password" hoặc "Chưa tạo Firestore Database"</summary>
+    <div class="body"><p>Đó là hai việc ở mục B1. Vào Console bật <b>Email/Password</b> trong Authentication và tạo Firestore Database.</p></div>
+  </details>
+
+  <details>
+    <summary>"Email này đã được đăng ký" khi tôi đăng ký lại để thử</summary>
+    <div class="body"><p>Tài khoản từ lần thử trước vẫn còn. Dùng email khác, hoặc vào Console xoá user ở <i>Authentication → Users</i> và tài liệu cùng <code>uid</code> ở <i>Firestore → users</i> rồi đăng ký lại.</p></div>
+  </details>
+
+  <details>
+    <summary>Email xác minh hoặc email đặt lại mật khẩu không về</summary>
+    <div class="body"><p>Tìm trong mục <b>Spam</b>. Thư gửi từ địa chỉ dạng <code>noreply@&lt;project&gt;.firebaseapp.com</code>. Gửi liên tục nhiều lần sẽ bị chặn tạm thời (<code>too-many-requests</code>), chờ vài phút rồi thử lại.</p></div>
+  </details>
+
+  <details>
+    <summary>Build lỗi "Gradle build daemon disappeared unexpectedly"</summary>
+    <div class="body"><p>File <code>android/hs_err_pid....log</code> ghi "insufficient memory": máy hết RAM khi build. Thường do Docker (WSL2) hoặc nhiều ứng dụng nặng chạy cùng Android Studio.</p>
+      <div class="code"><div class="code-bar"><span>PowerShell</span><button class="copy" type="button">Sao chép</button></div><pre><code>wsl --shutdown
 cd android
 .\gradlew --stop
 cd ..
-flutter run --dart-define=AUTH_MODE=firebase</code></pre></div>
-      <p>Đóng Chrome nhiều tab và các ứng dụng nặng. Dùng Docker thường xuyên thì giới hạn WSL bằng file <code>%UserProfile%\.wslconfig</code> (<code>[wsl2]</code> và <code>memory=3GB</code>), rồi chạy <code>wsl --shutdown</code>. File <code>hs_err_pid*.log</code> có thể xoá và không commit.</p>
-      <p>Cảnh báo "plugins that apply Kotlin Gradle Plugin (firebase_auth, firebase_core)" chỉ là cảnh báo, bỏ qua được.</p>
-    </div>
+flutter run</code></pre></div>
+      <p>Đóng Chrome nhiều tab và các ứng dụng nặng. File <code>hs_err_pid*.log</code> có thể xoá và không commit. Cảnh báo "plugins that apply Kotlin Gradle Plugin (firebase_auth, firebase_core)" chỉ là cảnh báo, bỏ qua được.</p></div>
   </details>
 
-  <details>
-    <summary>Tôi chạy bằng nút ▶ nhưng vẫn ở chế độ mock <span class="badge all">Chung</span></summary>
-    <div class="body">
-      <p>Nút ▶ không truyền <code>--dart-define</code>. Mở <i>Run → Edit Configurations</i>, điền vào <b>Additional run args</b>, ví dụ <code>--dart-define=AUTH_MODE=firebase</code>, hoặc chạy bằng lệnh <code>flutter run ...</code> trong terminal. Đăng nhập thử bằng <code>customer@courtly.vn</code>: vào được thì app đang gọi backend, còn <code>demo@courtly.vn</code> vào được thì app đang ở mock.</p>
-    </div>
-  </details>
 </section>
 
 <section class="sec" id="bao-mat">
   <span class="step-tag">An toàn</span>
   <h2>Giữ bí mật cho an toàn</h2>
   <div class="tbl"><table>
-    <thead><tr><th>Không bao giờ commit</th><th>Vì sao</th></tr></thead>
+    <thead><tr><th>Không commit lên Git công khai</th><th>Vì sao</th></tr></thead>
     <tbody>
-      <tr><td><code>.env</code> của backend</td><td>Chứa mật khẩu SQL Server, khoá ký JWT, App Password Gmail</td></tr>
-      <tr><td><code>secrets/</code> và file service account Firebase</td><td>Cho toàn quyền quản trị project Firebase</td></tr>
+      <tr><td><code>google-services.json</code></td><td>Gắn với project Firebase của bạn. Tự nó không cho quyền quản trị, nhưng không có lý do đăng công khai (project demo đã ghi sẵn vào <code>.gitignore</code>)</td></tr>
       <tr><td>File <code>debug.keystore</code> / keystore release</td><td>Là khoá ký ứng dụng</td></tr>
+      <tr><td>File service account của Firebase (nếu có)</td><td>Cho toàn quyền quản trị project</td></tr>
       <tr><td><code>hs_err_pid*.log</code></td><td>File báo lỗi của Java, vô ích và nặng</td></tr>
     </tbody>
   </table></div>
-  <div class="code"><div class="code-bar"><span>.gitignore</span><button class="copy" type="button">Sao chép</button></div><pre><code>.env
-secrets/
+  <div class="code"><div class="code-bar"><span>.gitignore</span><button class="copy" type="button">Sao chép</button></div><pre><code>android/app/google-services.json
 *.keystore
 *.jks
 hs_err_pid*.log</code></pre></div>
-  <p>Lỡ commit nhầm một bí mật? Đổi bí mật đó ngay (tạo App Password mới, khoá service account mới, mật khẩu mới). Xoá file khỏi commit sau cùng là chưa đủ vì lịch sử Git vẫn giữ nó.</p>
-  <div class="note"><b>Google Sign-In có dùng <code>google-services.json</code> trong repo công khai được không?</b> File này gắn với project và package, tự nó không cho quyền quản trị. Nhưng không có lý do để đăng công khai nếu bạn có thể tránh.</div>
+  <div class="note"><b>Vì sao vai trò ADMIN an toàn?</b> Quyền không nằm ở giao diện app mà ở <b>Firestore Security Rules</b> (mục B1): người dùng chỉ đọc và sửa hồ sơ của chính mình, và không được đổi <code>role</code> hay <code>email</code>. Ai đó sửa code app hay gọi thẳng API Firestore cũng không vượt được rules.</div>
 </section>
 
 <footer>
-  <p>Mã nguồn mẫu: <a href="https://github.com/NhHg-lab/PRM393_caulong" target="_blank" rel="noopener">PRM393_caulong</a> (Flutter) · <a href="https://github.com/AgentMeap/courtly-backend" target="_blank" rel="noopener">courtly-backend</a> (Spring Boot). Trang hướng dẫn này được viết cho môn PRM393. Nếu bạn thấy bước nào không chạy được, ghi lại thông báo lỗi và hỏi người phụ trách module bảo mật của nhóm.</p>
+  <p>Project demo và trang hướng dẫn này nằm cùng một repo GitHub (<a class="gh-repo-link" href="#top"><span class="gh-user">&lt;tên-github&gt;</span>/<span class="gh-repo">&lt;tên-repo&gt;</span></a>), viết cho môn PRM393. Nếu bước nào không chạy được, ghi lại thông báo lỗi và hỏi người phụ trách module bảo mật của nhóm.</p>
 </footer>
 </main>
 </div>
@@ -1186,7 +725,6 @@ hs_err_pid*.log</code></pre></div>
   $all('[data-set-mode]').forEach(function(b){b.addEventListener('click',function(){setMode(b.getAttribute('data-set-mode'));});});
   $all('[data-set-os]').forEach(function(b){b.addEventListener('click',function(){setOs(b.getAttribute('data-set-os'));});});
   $all('[data-pick]').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();setMode(b.getAttribute('data-pick'));var t=doc.getElementById(b.getAttribute('data-target')||'');if(t)t.scrollIntoView({behavior:'smooth'});});});
-  var sm=store('prm-mode'); if(sm==='spring'||sm==='firebase'||sm==='all')setMode(sm);
   var so=store('prm-os'); if(so==='win'||so==='mac')setOs(so);
   else if(/Mac|Linux/.test(navigator.platform||''))setOs('mac');
 
@@ -1249,35 +787,8 @@ hs_err_pid*.log</code></pre></div>
   /* ---------- sequence diagrams ---------- */
   var NS='http://www.w3.org/2000/svg';
   function el(n,a,t){var e=doc.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);if(t!==undefined)e.textContent=t;return e;}
-  var P={app:'Flutter App',api:'Spring Boot API',db:'SQL Server',mail:'Gmail SMTP',fa:'Firebase Auth',fs:'Firestore',gg:'Google'};
+  var P={app:'Flutter App',api:'Spring Boot API',fa:'Firebase Auth',fs:'Firestore',gg:'Google'};
   var FLOWS={
-    'spring-register':{p:['app','api','db','mail'],s:[
-      ['app','api','POST /register/send-otp (email)'],
-      ['api','db','Lưu OTP đã băm BCrypt (hạn 5 phút)'],
-      ['api','mail','Gửi mã 6 số qua email'],
-      ['api','app','200 "Đã gửi mã"',1],
-      ['app','api','POST /register (thông tin + otp)'],
-      ['api','db','Kiểm tra OTP; tạo user, mật khẩu BCrypt'],
-      ['api','app','200 accessToken + refreshToken + user',1],
-      ['app','app','Lưu token vào bộ nhớ an toàn']]},
-    'spring-login':{p:['app','api','db'],s:[
-      ['app','api','POST /login (email/SĐT + mật khẩu)'],
-      ['api','db','Tìm user, so khớp BCrypt'],
-      ['api','app','accessToken (30 phút) + refreshToken (7 ngày)',1],
-      ['app','api','GET /users/me  (Bearer accessToken)'],
-      ['api','app','401 khi token hết hạn',1],
-      ['app','api','POST /refresh (refreshToken)'],
-      ['api','db','Thu hồi token cũ, cấp cặp token mới'],
-      ['api','app','Cặp token mới; thử lại yêu cầu ban đầu',1],
-      ['app','api','POST /logout']]},
-    'spring-forgot':{p:['app','api','db','mail'],s:[
-      ['app','api','POST /password/forgot (email)'],
-      ['api','app','Luôn trả cùng một thông báo',1],
-      ['api','db','Nếu email tồn tại: lưu OTP RESET_PASSWORD'],
-      ['api','mail','Gửi OTP (sau khi commit, bất đồng bộ)'],
-      ['app','api','POST /password/reset (email, otp, mật khẩu mới)'],
-      ['api','db','Đổi mật khẩu; thu hồi mọi refresh token'],
-      ['api','app','200, quay lại đăng nhập',1]]},
     'firebase-register':{p:['app','fa','fs'],s:[
       ['app','fa','createUserWithEmailAndPassword'],
       ['fa','app','Tài khoản + uid',1],

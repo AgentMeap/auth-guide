@@ -1,6 +1,6 @@
 # Hướng dẫn tích hợp module bảo mật tài khoản (PRM393 - Courtly)
 
-- `index.html`: trang hướng dẫn từng bước (một file, không cần build). Hai đường: Spring Boot + SQL Server, hoặc Firebase trực tiếp.
+- `index.html`: trang hướng dẫn từng bước (một file, không cần build). Chỉ đường Firebase: dán code từng bước, có giải thích.
 - `starter/`: dự án Flutter mẫu nhỏ để thực hành dán code Firebase vào. Xem `starter/README.md`.
 
 ## Bật GitHub Pages
