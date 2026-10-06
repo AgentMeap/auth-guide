@@ -1,0 +1,18 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+.DS_Store
+
+# BÍ MẬT - không commit
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+*.keystore
+*.jks
+hs_err_pid*.log

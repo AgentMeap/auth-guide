@@ -1,0 +1,242 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:google_sign_in/google_sign_in.dart';
+
+import '../models/app_user.dart';
+import 'auth_service.dart';
+
+/// Web client ID dùng cho Google Sign-In trên Android.
+/// Lấy trong android/app/google-services.json, mục có "client_type": 3
+/// (hoặc Firebase Console > Authentication > Sign-in method > Google > Web SDK configuration).
+const String googleServerClientId =
+    'DÁN-WEB-CLIENT-ID-Ở-ĐÂY.apps.googleusercontent.com';
+
+/// Xác thực bằng Firebase Authentication, hồ sơ lưu ở Firestore: users/{uid}.
+class FirebaseAuthService implements AuthService {
+  fb.FirebaseAuth get _auth => fb.FirebaseAuth.instance;
+  FirebaseFirestore get _db => FirebaseFirestore.instance;
+
+  static const _users = 'users';
+  bool _googleReady = false;
+
+  @override
+  String get label => 'Firebase';
+
+  // ---- Khôi phục phiên khi mở app -----------------------------------------
+
+  @override
+  Future<AppUser?> restore() => _guard(() async {
+    final user = await _currentUser();
+    if (user == null) return null;
+    return _loadOrCreateProfile(user);
+  });
+
+  // ---- Email + mật khẩu ----------------------------------------------------
+
+  @override
+  Future<AppUser> login({required String email, required String password}) =>
+      _guard(() async {
+        final credential = await _auth.signInWithEmailAndPassword(
+          email: email.trim(),
+          password: password,
+        );
+        return _loadOrCreateProfile(_requireUser(credential));
+      });
+
+  @override
+  Future<AppUser> signup({
+    required String fullName,
+    required String email,
+    required String password,
+    String? phone,
+  }) => _guard(() async {
+    final credential = await _auth.createUserWithEmailAndPassword(
+      email: email.trim(),
+      password: password,
+    );
+    final user = _requireUser(credential);
+    final AppUser profile;
+    try {
+      await user.updateDisplayName(fullName.trim());
+      profile = await _createProfile(user, fullName: fullName, phone: phone);
+    } catch (_) {
+      // Chưa có hồ sơ thì đăng xuất để không kẹt ở trạng thái nửa vời.
+      // Lần đăng nhập sau sẽ tự tạo hồ sơ còn thiếu.
+      await _auth.signOut();
+      rethrow;
+    }
+    try {
+      await user.sendEmailVerification(); // email chứa liên kết xác minh
+    } catch (_) {
+      // Gửi email xác minh là phần phụ, không làm hỏng đăng ký.
+    }
+    return profile;
+  });
+
+  /// Firebase gửi email chứa LIÊN KẾT đặt lại mật khẩu (không phải OTP 6 số).
+  /// Trả về thành công kể cả khi email chưa đăng ký, nên không lộ email nào tồn tại.
+  @override
+  Future<void> sendPasswordReset(String email) =>
+      _guard(() => _auth.sendPasswordResetEmail(email: email.trim()));
+
+  // ---- Google --------------------------------------------------------------
+
+  @override
+  Future<AppUser> loginWithGoogle() => _guard(() async {
+    try {
+      await _ensureGoogleReady();
+      final account = await GoogleSignIn.instance.authenticate();
+      final idToken = account.authentication.idToken;
+      if (idToken == null) {
+        throw const AuthException(
+          'Không lấy được idToken từ Google. Kiểm tra googleServerClientId.',
+        );
+      }
+      final credential = await _auth.signInWithCredential(
+        fb.GoogleAuthProvider.credential(idToken: idToken),
+      );
+      return _loadOrCreateProfile(_requireUser(credential));
+    } on GoogleSignInException catch (error) {
+      throw AuthException(
+        error.code == GoogleSignInExceptionCode.canceled
+            ? 'Bạn đã huỷ đăng nhập Google. Nếu bạn không bấm huỷ, '
+                  'hãy kiểm tra SHA-1 của máy đã thêm vào Firebase chưa.'
+            : 'Đăng nhập Google thất bại (${error.code.name}).',
+      );
+    }
+  });
+
+  // ---- Đăng xuất -----------------------------------------------------------
+
+  @override
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
+      if (_googleReady) await GoogleSignIn.instance.signOut();
+    } catch (_) {
+      // Đăng xuất phía máy khách vẫn tiếp tục.
+    }
+  }
+
+  // ---- Hỗ trợ --------------------------------------------------------------
+
+  Future<void> _ensureGoogleReady() async {
+    if (_googleReady) return;
+    if (googleServerClientId.startsWith('DÁN')) {
+      throw const AuthException(
+        'Chưa điền googleServerClientId trong firebase_auth_service.dart (Bước 6).',
+      );
+    }
+    await GoogleSignIn.instance.initialize(serverClientId: googleServerClientId);
+    _googleReady = true;
+  }
+
+  fb.User _requireUser(fb.UserCredential credential) {
+    final user = credential.user;
+    if (user == null) {
+      throw const AuthException('Firebase không trả về người dùng.');
+    }
+    return user;
+  }
+
+  /// Firebase khôi phục người dùng đã lưu bất đồng bộ lúc khởi động, nên có lúc
+  /// currentUser còn null dù đã đăng nhập từ lần trước.
+  Future<fb.User?> _currentUser() async {
+    final current = _auth.currentUser;
+    if (current != null) return current;
+    return _auth.authStateChanges().first.timeout(
+      const Duration(seconds: 3),
+      onTimeout: () => null,
+    );
+  }
+
+  Future<AppUser> _loadOrCreateProfile(fb.User user) async {
+    final snapshot = await _db.collection(_users).doc(user.uid).get();
+    if (snapshot.exists) return _fromData(user, snapshot.data() ?? const {});
+    // Tài khoản Google lần đầu, hoặc đăng ký từng bị dở dang: tạo hồ sơ còn thiếu.
+    return _createProfile(user, fullName: user.displayName, phone: null);
+  }
+
+  Future<AppUser> _createProfile(
+    fb.User user, {
+    required String? fullName,
+    required String? phone,
+  }) async {
+    final email = (user.email ?? '').toLowerCase();
+    final name = (fullName == null || fullName.trim().isEmpty)
+        ? (email.contains('@') ? email.split('@').first : 'Người dùng')
+        : fullName.trim();
+    final provider = _providerOf(user);
+    await _db.collection(_users).doc(user.uid).set({
+      'fullName': name,
+      'email': email,
+      if (phone != null && phone.isNotEmpty) 'phone': phone,
+      // Vai trò luôn là CUSTOMER khi tự tạo; Security Rules chặn giá trị khác.
+      'role': 'CUSTOMER',
+      'authProvider': provider,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+    return AppUser(
+      id: user.uid,
+      fullName: name,
+      email: email,
+      phone: phone,
+      authProvider: provider,
+    );
+  }
+
+  AppUser _fromData(fb.User user, Map<String, dynamic> data) => AppUser(
+    id: user.uid,
+    fullName: (data['fullName'] as String?) ?? user.displayName ?? '',
+    email: (data['email'] as String?) ?? user.email ?? '',
+    phone: data['phone'] as String?,
+    role: (data['role'] as String?) ?? 'CUSTOMER',
+    authProvider: (data['authProvider'] as String?) ?? _providerOf(user),
+  );
+
+  String _providerOf(fb.User user) =>
+      user.providerData.any((info) => info.providerId == 'google.com')
+      ? 'GOOGLE'
+      : 'LOCAL';
+
+  /// Đổi mọi lỗi của Firebase thành AuthException có thông báo tiếng Việt.
+  Future<T> _guard<T>(Future<T> Function() body) async {
+    try {
+      return await body();
+    } on AuthException {
+      rethrow;
+    } on fb.FirebaseAuthException catch (error) {
+      throw AuthException(_authMessage(error.code));
+    } on FirebaseException catch (error) {
+      throw AuthException(_firestoreMessage(error.code));
+    }
+  }
+
+  String _authMessage(String code) => switch (code) {
+    'invalid-credential' ||
+    'invalid-login-credentials' ||
+    'wrong-password' ||
+    'user-not-found' => 'Email hoặc mật khẩu không đúng.',
+    'invalid-email' => 'Email không hợp lệ.',
+    'email-already-in-use' => 'Email này đã được đăng ký.',
+    'weak-password' => 'Mật khẩu quá yếu (tối thiểu 6 ký tự).',
+    'user-disabled' => 'Tài khoản đã bị khoá.',
+    'too-many-requests' => 'Bạn thao tác quá nhanh, vui lòng thử lại sau.',
+    'network-request-failed' => 'Không thể kết nối mạng.',
+    'operation-not-allowed' =>
+      'Chưa bật đăng nhập Email/Password trong Firebase Console.',
+    _ => 'Firebase báo lỗi ($code).',
+  };
+
+  String _firestoreMessage(String code) => switch (code) {
+    'no-app' =>
+      'Firebase chưa được khởi tạo. Kiểm tra Bước 4 (Firebase.initializeApp) '
+          'và file google-services.json.',
+    'permission-denied' =>
+      'Firestore từ chối quyền truy cập. Hãy dán và Publish firestore.rules.',
+    'unavailable' || 'deadline-exceeded' => 'Không thể kết nối mạng.',
+    'not-found' ||
+    'failed-precondition' => 'Chưa tạo Firestore Database trong Firebase Console.',
+    _ => 'Firestore báo lỗi ($code).',
+  };
+}
